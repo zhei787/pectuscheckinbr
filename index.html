@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acompanhamento Terapêutico - Pectus Excavatum</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-button.active {
+            background: #667eea;
+            color: white;
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+        }
+
+        .btn-success {
+            background: #4caf50;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+        }
+
+        .btn-danger {
+            background: #f44336;
+        }
+
+        .btn-danger:hover {
+            background: #da190b;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calendar-day:hover {
+            background: #e0e0e0;
+        }
+
+        .calendar-day.completed {
+            background: #4caf50;
+            color: white;
+        }
+
+        .calendar-day.today {
+            border: 3px solid #667eea;
+        }
+
+        .calendar-header {
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .history-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .history-date {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .history-details {
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .image-upload {
+            border: 2px dashed #667eea;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload:hover {
+            background: #f5f5ff;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .image-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .image-item .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .image-date {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px;
+            font-size: 0.9em;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .info-box strong {
+            color: #1976d2;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .month-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .month-selector button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .month-selector span {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 Acompanhamento Terapêutico</h1>
+            <p class="subtitle">Sistema de Monitoramento - Pectus Excavatum</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="stat-card">
+                <h3>Vacuum Bell</h3>
+                <div class="stat-value" id="totalVacuumDays">0</div>
+                <div class="stat-label">dias de uso</div>
+            </div>
+            <div class="stat-card">
+                <h3>Tempo Diário</h3>
+                <div class="stat-value" id="currentTime">5</div>
+                <div class="stat-label">minutos hoje</div>
+            </div>
+            <div class="stat-card">
+                <h3>Academia</h3>
+                <div class="stat-value" id="totalWorkoutDays">0</div>
+                <div class="stat-label">dias treinados</div>
+            </div>
+            <div class="stat-card">
+                <h3>Peso Atual</h3>
+                <div class="stat-value" id="currentWeight">--</div>
+                <div class="stat-label">kg</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('vacuum')">Vacuum Bell</button>
+            <button class="tab-button" onclick="openTab('workout')">Academia</button>
+            <button class="tab-button" onclick="openTab('weight')">Peso</button>
+            <button class="tab-button" onclick="openTab('measurement')">Medição Pectus</button>
+            <button class="tab-button" onclick="openTab('photos')">Fotos de Progresso</button>
+        </div>
+
+        <!-- TAB VACUUM BELL -->
+        <div id="vacuum" class="tab-content active">
+            <h2 class="section-title">💨 Uso do Vacuum Bell</h2>
+            
+            <div class="info-box">
+                <strong>ℹ️ Como funciona:</strong> O tempo de uso aumenta 5 minutos por semana até atingir o tempo máximo configurado.
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Semana Atual do Tratamento</label>
+                    <select id="vacuumWeek" onchange="updateVacuumTime()">
+                        <option value="1">Semana 1 - 5 minutos</option>
+                        <option value="2">Semana 2 - 10 minutos</option>
+                        <option value="3">Semana 3 - 15 minutos</option>
+                        <option value="4">Semana 4 - 20 minutos</option>
+                        <option value="5">Semana 5 - 25 minutos</option>
+                        <option value="6">Semana 6 - 30 minutos</option>
+                        <option value="7">Semana 7 - 35 minutos</option>
+                        <option value="8">Semana 8 - 40 minutos</option>
+                        <option value="9">Semana 9 - 45 minutos</option>
+                        <option value="10">Semana 10 - 50 minutos</option>
+                        <option value="11">Semana 11 - 55 minutos</option>
+                        <option value="12">Semana 12 - 60 minutos</option>
+                        <option value="13">Semana 13 - 65 minutos</option>
+                        <option value="14">Semana 14 - 70 minutos</option>
+                        <option value="15">Semana 15 - 75 minutos</option>
+                        <option value="16">Semana 16+ - 80 minutos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Tempo Máximo (minutos)</label>
+                    <select id="vacuumMaxTime" onchange="updateVacuumTime()">
+                        <option value="60">1 hora (60 minutos)</option>
+                        <option value="80">1h 20min (80 minutos)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Dias Já Utilizados Anteriormente</label>
+                <input type="number" id="previousDays" min="0" placeholder="Ex: 90 dias (3 meses)">
+                <button class="btn" onclick="addPreviousDays()" style="margin-top: 10px;">Adicionar Dias Anteriores</button>
+            </div>
+
+            <div class="form-group">
+                <label>Observações de Hoje</label>
+                <textarea id="vacuumNotes" placeholder="Dor, conforto, resultados observados..."></textarea>
+            </div>
+
+            <button class="btn btn-success" onclick="checkInVacuum()">✅ Registrar Uso de Hoje</button>
+
+            <div class="month-selector">
+                <button onclick="changeVacuumMonth(-1)">← Anterior</button>
+                <span id="vacuumMonthLabel"></span>
+                <button onclick="changeVacuumMonth(1)">Próximo →</button>
+            </div>
+
+            <div class="calendar" id="vacuumCalendar"></div>
+
+            <h3 style="margin-top: 30px; color: #667eea;">📊 Histórico</h3>
+            <div id="vacuumHistory"></div>
+        </div>
+
+        <!-- TAB ACADEMIA -->
+        <div id="workout" class="tab-content">
+            <h2 class="section-title">💪 Academia - Treino Diário</h2>
+
+            <div class="form-group">
+                <label>Treino de Hoje</label>
+                <select id="workoutType">
+                    <option value="">Selecione o treino</option>
+                    <option value="Peito e Tríceps">Dia 1 - Peito e Tríceps</option>
+                    <option value="Costas e Bíceps">Dia 2 - Costas e Bíceps</option>
+                    <option value="Ombros e Abdômen">Dia 3 - Ombros e Abdômen</option>
+                    <option value="Pernas e Glúteos">Dia 4 - Pernas e Glúteos</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Observações do Treino</label>
+                <textarea id="workoutNotes" placeholder="Carga utilizada, intensidade, dores, sensações..."></textarea>
+            </div>
+
+            <button class="btn btn-success" onclick="checkInWorkout()">✅ Registrar Treino de Hoje</button>
+
+            <div class="month-selector">
+                <button onclick="changeWorkoutMonth(-1)">← Anterior</button>
+                <span id="workoutMonthLabel"></span>
+                <button onclick="changeWorkoutMonth(1)">Próximo →</button>
+            </div>
+
+            <div class="calendar" id="workoutCalendar"></div>
+
+            <h3 style="margin-top: 30px; color: #667eea;">📊 Histórico</h3>
+            <div id="workoutHistory"></div>
+        </div>
+
+        <!-- TAB PESO -->
+        <div id="weight" class="tab-content">
+            <h2 class="section-title">⚖️ Acompanhamento de Peso</h2>
+
+            <div class="form-group">
+                <label>Peso Atual (kg)</label>
+                <input type="number" id="weightInput" step="0.1" placeholder="Ex: 70.5">
+            </div>
+
+            <button class="btn btn-success" onclick="saveWeight()">💾 Salvar Peso</button>
+
+            <h3 style="margin-top: 30px; color: #667eea;">📊 Evolução do Peso</h3>
+            <div id="weightHistory"></div>
+        </div>
+
+        <!-- TAB MEDIÇÃO PECTUS -->
+        <div id="measurement" class="tab-content">
+            <h2 class="section-title">📏 Medição do Pectus</h2>
+
+            <div class="form-group">
+                <label>Profundidade (cm)</label>
+                <input type="number" id="pectusDepth" step="0.1" placeholder="Ex: 3.5">
+            </div>
+
+            <div class="form-group">
+                <label>Observações</label>
+                <textarea id="pectusNotes" placeholder="Método de medição, local exato, percepções..."></textarea>
+            </div>
+
+            <button class="btn btn-success" onclick="saveMeasurement()">💾 Salvar Medição</button>
+
+            <h3 style="margin-top: 30px; color: #667eea;">📊 Evolução das Medições</h3>
+            <div id="measurementHistory"></div>
+        </div>
+
+        <!-- TAB FOTOS -->
+        <div id="photos" class="tab-content">
+            <h2 class="section-title">📸 Fotos de Progresso</h2>
+
+            <div class="image-upload" onclick="document.getElementById('photoInput').click()">
+                <p style="font-size: 3em;">📷</p>
+                <p>Clique para adicionar foto</p>
+                <p style="font-size: 0.9em; color: #666;">As fotos são salvas localmente no seu navegador</p>
+            </div>
+            <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="addPhoto()">
+
+            <div class="month-selector">
+                <button onclick="changePhotoMonth(-1)">← Anterior</button>
+                <span id="photoMonthLabel"></span>
+                <button onclick="changePhotoMonth(1)">Próximo →</button>
+            </div>
+
+            <div class="image-gallery" id="photoGallery"></div>
+        </div>
+    </div>
+
+    <script>
+        // INICIALIZAÇÃO
+        let vacuumData = JSON.parse(localStorage.getItem('vacuumData')) || {};
+        let workoutData = JSON.parse(localStorage.getItem('workoutData')) || {};
+        let weightData = JSON.parse(localStorage.getItem('weightData')) || [];
+        let measurementData = JSON.parse(localStorage.getItem('measurementData')) || [];
+        let photoData = JSON.parse(localStorage.getItem('photoData')) || [];
+        let settings = JSON.parse(localStorage.getItem('settings')) || {
+            vacuumWeek: 1,
+            vacuumMaxTime: 60,
+            previousDaysAdded: 0
+        };
+
+        let currentVacuumMonth = new Date();
+        let currentWorkoutMonth = new Date();
+        let currentPhotoMonth = new Date();
+
+        // UTILITÁRIOS
+        function formatDate(date) {
+            const d = new Date(date);
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+            return `${year}-${month}-${day}`;
+        }
+
+        function getMonthName(date) {
+            const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            return `${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function openTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // VACUUM BELL
+        function updateVacuumTime() {
+            const week = parseInt(document.getElementById('vacuumWeek').value);
+            const maxTime = parseInt(document.getElementById('vacuumMaxTime').value);
+            let time = week * 5;
+            
+            if (time > maxTime) {
+                time = maxTime;
+            }
+            
+            settings.vacuumWeek = week;
+            settings.vacuumMaxTime = maxTime;
+            localStorage.setItem('settings', JSON.stringify(settings));
+            
+            document.getElementById('currentTime').textContent = time;
+            updateDashboard();
+        }
+
+        function addPreviousDays() {
+            const days = parseInt(document.getElementById('previousDays').value) || 0;
+            if (days > 0) {
+                settings.previousDaysAdded = days;
+                localStorage.setItem('settings', JSON.stringify(settings));
+                alert(`${days} dias anteriores adicionados com sucesso!`);
+                updateDashboard();
+            }
+        }
+
+        function checkInVacuum() {
+            const today = formatDate(new Date());
+            const notes = document.getElementById('vacuumNotes').value;
+            const week = settings.vacuumWeek;
+            const maxTime = settings.vacuumMaxTime;
+            let time = week * 5;
+            if (time > maxTime) time = maxTime;
+            
+            vacuumData[today] = {
+                completed: true,
+                notes: notes,
+                time: time,
+                week: week
+            };
+            
+            localStorage.setItem('vacuumData', JSON.stringify(vacuumData));
+            document.getElementById('vacuumNotes').value = '';
+            alert('✅ Uso do Vacuum Bell registrado com sucesso!');
+            renderVacuumCalendar();
+            updateDashboard();
+            loadVacuumHistory();
+        }
+
+        function renderVacuumCalendar() {
+            const calendar = document.getElementById('vacuumCalendar');
+            calendar.innerHTML = '';
+            
+            const year = currentVacuumMonth.getFullYear();
+            const month = currentVacuumMonth.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            dayNames.forEach(name => {
+                const header = document.createElement('div');
+                header.className = 'calendar-header';
+                header.textContent = name;
+                calendar.appendChild(header);
+            });
+            
+            for (let i = 0; i < firstDay; i++) {
+                calendar.appendChild(document.createElement('div'));
+            }
+            
+            const today = formatDate(new Date());
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = formatDate(new Date(year, month, day));
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day';
+                dayEl.textContent = day;
+                
+                if (vacuumData[date] && vacuumData[date].completed) {
+                    dayEl.classList.add('completed');
+                }
+                
+                if (date === today) {
+                    dayEl.classList.add('today');
+                }
+                
+                calendar.appendChild(dayEl);
+            }
+            
+            document.getElementById('vacuumMonthLabel').textContent = getMonthName(currentVacuumMonth);
+        }
+
+        function changeVacuumMonth(direction) {
+            currentVacuumMonth.setMonth(currentVacuumMonth.getMonth() + direction);
+            renderVacuumCalendar();
+        }
+
+        function loadVacuumHistory() {
+            const history = document.getElementById('vacuumHistory');
+            history.innerHTML = '';
+            
+            const entries = Object.entries(vacuumData)
+                .sort((a, b) => new Date(b[0]) - new Date(a[0]))
+                .slice(0, 10);
+            
+            if (entries.length === 0) {
+                history.innerHTML = '<p style="color: #666;">Nenhum registro ainda.</p>';
+                return;
+            }
+            
+            entries.forEach(([date, data]) => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `
+                    <div class="history-date">${new Date(date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-details">
+                        <strong>Tempo:</strong> ${data.time} minutos | 
+                        <strong>Semana:</strong> ${data.week}<br>
+                        ${data.notes ? `<strong>Obs:</strong> ${data.notes}` : ''}
+                    </div>
+                `;
+                history.appendChild(item);
+            });
+        }
+
+        // TREINO
+        function checkInWorkout() {
+            const today = formatDate(new Date());
+            const type = document.getElementById('workoutType').value;
+            const notes = document.getElementById('workoutNotes').value;
+            
+            if (!type) {
+                alert('Por favor, selecione o treino do dia!');
+                return;
+            }
+            
+            workoutData[today] = {
+                completed: true,
+                type: type,
+                notes: notes
+            };
+            
+            localStorage.setItem('workoutData', JSON.stringify(workoutData));
+            document.getElementById('workoutType').value = '';
+            document.getElementById('workoutNotes').value = '';
+            alert('✅ Treino registrado com sucesso!');
+            renderWorkoutCalendar();
+            updateDashboard();
+            loadWorkoutHistory();
+        }
+
+        function renderWorkoutCalendar() {
+            const calendar = document.getElementById('workoutCalendar');
+            calendar.innerHTML = '';
+            
+            const year = currentWorkoutMonth.getFullYear();
+            const month = currentWorkoutMonth.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            dayNames.forEach(name => {
+                const header = document.createElement('div');
+                header.className = 'calendar-header';
+                header.textContent = name;
+                calendar.appendChild(header);
+            });
+            
+            for (let i = 0; i < firstDay; i++) {
+                calendar.appendChild(document.createElement('div'));
+            }
+            
+            const today = formatDate(new Date());
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = formatDate(new Date(year, month, day));
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day';
+                dayEl.textContent = day;
+                
+                if (workoutData[date] && workoutData[date].completed) {
+                    dayEl.classList.add('completed');
+                }
+                
+                if (date === today) {
+                    dayEl.classList.add('today');
+                }
+                
+                calendar.appendChild(dayEl);
+            }
+            
+            document.getElementById('workoutMonthLabel').textContent = getMonthName(currentWorkoutMonth);
+        }
+
+        function changeWorkoutMonth(direction) {
+            currentWorkoutMonth.setMonth(currentWorkoutMonth.getMonth() + direction);
+            renderWorkoutCalendar();
+        }
+
+        function loadWorkoutHistory() {
+            const history = document.getElementById('workoutHistory');
+            history.innerHTML = '';
+            
+            const entries = Object.entries(workoutData)
+                .sort((a, b) => new Date(b[0]) - new Date(a[0]))
+                .slice(0, 10);
+            
+            if (entries.length === 0) {
+                history.innerHTML = '<p style="color: #666;">Nenhum treino registrado ainda.</p>';
+                return;
+            }
+            
+            entries.forEach(([date, data]) => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `
+                    <div class="history-date">${new Date(date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-details">
+                        <strong>Treino:</strong> ${data.type}<br>
+                        ${data.notes ? `<strong>Obs:</strong> ${data.notes}` : ''}
+                    </div>
+                `;
+                history.appendChild(item);
+            });
+        }
+
+        // PESO
+        function saveWeight() {
+            const weight = parseFloat(document.getElementById('weightInput').value);
+            if (!weight || weight <= 0) {
+                alert('Por favor, insira um peso válido!');
+                return;
+            }
+            
+            const today = new Date();
+            const monthYear = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+            
+            weightData.push({
+                date: formatDate(today),
+                monthYear: monthYear,
+                weight: weight
+            });
+            
+            localStorage.setItem('weightData', JSON.stringify(weightData));
+            document.getElementById('weightInput').value = '';
+            alert('✅ Peso registrado com sucesso!');
+            loadWeightHistory();
+            updateDashboard();
+        }
+
+        function loadWeightHistory() {
+            const history = document.getElementById('weightHistory');
+            history.innerHTML = '';
+            
+            if (weightData.length === 0) {
+                history.innerHTML = '<p style="color: #666;">Nenhum peso registrado ainda.</p>';
+                return;
+            }
+            
+            const sortedData = [...weightData].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedData.forEach((entry, index) => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                
+                let variation = '';
+                if (index < sortedData.length - 1) {
+                    const diff = entry.weight - sortedData[index + 1].weight;
+                    const sign = diff > 0 ? '+' : '';
+                    const color = diff > 0 ? 'red' : 'green';
+                    variation = `<span style="color: ${color}; font-weight: bold;"> (${sign}${diff.toFixed(1)} kg)</span>`;
+                }
+                
+                item.innerHTML = `
+                    <div class="history-date">${new Date(entry.date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-details">
+                        <strong>Peso:</strong> ${entry.weight.toFixed(1)} kg ${variation}
+                    </div>
+                `;
+                history.appendChild(item);
+            });
+        }
+
+        // MEDIÇÃO PECTUS
+        function saveMeasurement() {
+            const depth = parseFloat(document.getElementById('pectusDepth').value);
+            const notes = document.getElementById('pectusNotes').value;
+            
+            if (!depth || depth <= 0) {
+                alert('Por favor, insira uma medida válida!');
+                return;
+            }
+            
+            const today = new Date();
+            const monthYear = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+            
+            measurementData.push({
+                date: formatDate(today),
+                monthYear: monthYear,
+                depth: depth,
+                notes: notes
+            });
+            
+            localStorage.setItem('measurementData', JSON.stringify(measurementData));
+            document.getElementById('pectusDepth').value = '';
+            document.getElementById('pectusNotes').value = '';
+            alert('✅ Medição registrada com sucesso!');
+            loadMeasurementHistory();
+        }
+
+        function loadMeasurementHistory() {
+            const history = document.getElementById('measurementHistory');
+            history.innerHTML = '';
+            
+            if (measurementData.length === 0) {
+                history.innerHTML = '<p style="color: #666;">Nenhuma medição registrada ainda.</p>';
+                return;
+            }
+            
+            const sortedData = [...measurementData].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedData.forEach((entry, index) => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                
+                let variation = '';
+                if (index < sortedData.length - 1) {
+                    const diff = entry.depth - sortedData[index + 1].depth;
+                    const sign = diff > 0 ? '+' : '';
+                    const color = diff < 0 ? 'green' : 'red';
+                    variation = `<span style="color: ${color}; font-weight: bold;"> (${sign}${diff.toFixed(1)} cm)</span>`;
+                }
+                
+                item.innerHTML = `
+                    <div class="history-date">${new Date(entry.date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-details">
+                        <strong>Profundidade:</strong> ${entry.depth.toFixed(1)} cm ${variation}<br>
+                        ${entry.notes ? `<strong>Obs:</strong> ${entry.notes}` : ''}
+                    </div>
+                `;
+                history.appendChild(item);
+            });
+        }
+
+        // FOTOS
+        function addPhoto() {
+            const input = document.getElementById('photoInput');
+            const file = input.files[0];
+            
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const today = new Date();
+                const monthYear = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
+                
+                photoData.push({
+                    date: formatDate(today),
+                    monthYear: monthYear,
+                    image: e.target.result
+                });
+                
+                localStorage.setItem('photoData', JSON.stringify(photoData));
+                loadPhotoGallery();
+                alert('✅ Foto adicionada com sucesso!');
+            };
+            reader.readAsDataURL(file);
+            input.value = '';
+        }
+
+        function loadPhotoGallery() {
+            const gallery = document.getElementById('photoGallery');
+            gallery.innerHTML = '';
+            
+            const year = currentPhotoMonth.getFullYear();
+            const month = String(currentPhotoMonth.getMonth() + 1).padStart(2, '0');
+            const monthYear = `${year}-${month}`;
+            
+            const filteredPhotos = photoData.filter(photo => photo.monthYear === monthYear);
+            
+            if (filteredPhotos.length === 0) {
+                gallery.innerHTML = '<p style="color: #666; grid-column: 1/-1; text-align: center;">Nenhuma foto neste mês.</p>';
+                return;
+            }
+            
+            filteredPhotos.forEach((photo, index) => {
+                const item = document.createElement('div');
+                item.className = 'image-item';
+                item.innerHTML = `
+                    <img src="${photo.image}" alt="Progresso">
+                    <button class="delete-btn" onclick="deletePhoto('${photo.date}', ${photoData.indexOf(photo)})">×</button>
+                    <div class="image-date">${new Date(photo.date).toLocaleDateString('pt-BR')}</div>
+                `;
+                gallery.appendChild(item);
+            });
+            
+            document.getElementById('photoMonthLabel').textContent = getMonthName(currentPhotoMonth);
+        }
+
+        function deletePhoto(date, index) {
+            if (confirm('Tem certeza que deseja excluir esta foto?')) {
+                photoData.splice(index, 1);
+                localStorage.setItem('photoData', JSON.stringify(photoData));
+                loadPhotoGallery();
+            }
+        }
+
+        function changePhotoMonth(direction) {
+            currentPhotoMonth.setMonth(currentPhotoMonth.getMonth() + direction);
+            loadPhotoGallery();
+        }
+
+        // DASHBOARD
+        function updateDashboard() {
+            // Total de dias Vacuum Bell
+            const totalVacuum = Object.keys(vacuumData).length + settings.previousDaysAdded;
+            document.getElementById('totalVacuumDays').textContent = totalVacuum;
+            
+            // Tempo atual baseado na semana
+            const week = settings.vacuumWeek;
+            const maxTime = settings.vacuumMaxTime;
+            let time = week * 5;
+            if (time > maxTime) time = maxTime;
+            document.getElementById('currentTime').textContent = time;
+            
+            // Total de dias de treino
+            const totalWorkout = Object.keys(workoutData).length;
+            document.getElementById('totalWorkoutDays').textContent = totalWorkout;
+            
+            // Peso atual
+            if (weightData.length > 0) {
+                const latest = weightData.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                document.getElementById('currentWeight').textContent = latest.weight.toFixed(1);
+            }
+        }
+
+        // INICIALIZAÇÃO DO SISTEMA
+        function init() {
+            // Restaurar configurações
+            document.getElementById('vacuumWeek').value = settings.vacuumWeek;
+            document.getElementById('vacuumMaxTime').value = settings.vacuumMaxTime;
+            
+            updateDashboard();
+            renderVacuumCalendar();
+            renderWorkoutCalendar();
+            loadVacuumHistory();
+            loadWorkoutHistory();
+            loadWeightHistory();
+            loadMeasurementHistory();
+            loadPhotoGallery();
+        }
+
+        // Executar ao carregar a página
+        window.onload = init;
+    </script>
+</body>
+</html>
