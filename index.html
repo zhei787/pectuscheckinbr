@@ -6,392 +6,1040 @@
     <title>Acompanhamento Terapêutico - Pectus Excavatum</title>
     <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #F8F9FD 0%, #E8EBF7 100%);
+    min-height: 100vh;
+    padding: 15px;
+    color: #1E293B;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ========================================
+   HEADER - CLEAN E LEVE
+   ======================================== */
+
+header {
+    background: #FFFFFF;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid rgba(124, 58, 237, 0.1);
+}
+
+h1 {
+    color: #7C3AED;
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: #64748B;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+/* ========================================
+   XP CONTAINER - GLASSMORPHISM SUTIL
+   ======================================== */
+
+.xp-container {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.95), rgba(99, 102, 241, 0.95));
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.rank-display {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.rank-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-size: 1.1em;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.xp-bars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.xp-bar-container {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.xp-bar-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.xp-bar {
+    height: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.xp-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00E5FF, #00B8D4);
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+/* ========================================
+   MESSAGE BOX - FLAT DESIGN
+   ======================================== */
+
+#messageContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    pointer-events: none;
+}
+
+.message-box {
+    padding: 14px 18px 14px 14px;
+    border-radius: 10px;
+    animation: slideInRight 0.4s ease, fadeOut 0.4s ease 4.6s;
+    font-size: 0.9em;
+    font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    pointer-events: auto;
+    position: relative;
+    border-left: 4px solid;
+    backdrop-filter: blur(10px);
+    min-width: 300px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Animações */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+}
+
+/* Tipos de mensagem */
+.message-success {
+    background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+    border-left-color: #10B981;
+    color: #065F46;
+}
+
+.message-success::before {
+    content: '✅';
+    font-size: 1.3em;
+    flex-shrink: 0;
+}
+
+.message-warning {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border-left-color: #F59E0B;
+    color: #92400E;
+}
+
+.message-warning::before {
+    content: '⚠️';
+    font-size: 1.3em;
+    flex-shrink: 0;
+}
+
+.message-info {
+    background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+    border-left-color: #3B82F6;
+    color: #1E40AF;
+}
+
+.message-info::before {
+    content: 'ℹ️';
+    font-size: 1.3em;
+    flex-shrink: 0;
+}
+
+/* Botão de fechar (opcional) */
+.message-box::after {
+    content: '×';
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 1.4em;
+    color: inherit;
+    opacity: 0.5;
+    cursor: pointer;
+    font-weight: 700;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.message-box:hover::after {
+    opacity: 1;
+}
+
+/* Mobile - Ajuste para telas pequenas */
+@media (max-width: 768px) {
+    #messageContainer {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .message-box {
+        min-width: auto;
+        width: 100%;
+        font-size: 0.85em;
+        padding: 12px 14px;
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateY(-50px);
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
         }
-
-        header {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-            text-align: center;
+        to {
+            opacity: 0;
+            transform: translateY(-50px);
         }
+    }
+}
 
-        h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
+/* ========================================
+   DASHBOARD CARDS - CLEAN E COMPACTO
+   ======================================== */
 
-        .subtitle {
-            color: #666;
-            font-size: 1.1em;
-        }
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
 
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+.stat-card {
+    background: #FFFFFF;
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(124, 58, 237, 0.08);
+}
 
-        .stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.15);
+}
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
+.stat-card h3 {
+    color: #7C3AED;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
 
-        .stat-card h3 {
-            color: #667eea;
-            font-size: 0.9em;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
+.stat-value {
+    font-size: 2.2em;
+    font-weight: 800;
+    color: #1E293B;
+    line-height: 1;
+}
 
-        .stat-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #333;
-        }
+.stat-label {
+    color: #64748B;
+    font-size: 0.85em;
+    margin-top: 4px;
+    font-weight: 500;
+}
 
-        .stat-label {
-            color: #666;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
+/* ========================================
+   TABS - MINIMALISTA
+   ======================================== */
 
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
 
-        .tab-button {
-            background: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
+.tab-button {
+    background: #FFFFFF;
+    border: 1px solid rgba(124, 58, 237, 0.15);
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #64748B;
+}
 
-        .tab-button:hover {
-            background: #667eea;
-            color: white;
-        }
+.tab-button:hover {
+    background: #F1F5F9;
+    color: #7C3AED;
+    border-color: rgba(124, 58, 237, 0.3);
+}
 
-        .tab-button.active {
-            background: #667eea;
-            color: white;
-            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
-        }
+.tab-button.active {
+    background: linear-gradient(135deg, #7C3AED, #6366F1);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.4),
+                0 0 40px rgba(124, 58, 237, 0.2),
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+}
 
-        .tab-content {
-            display: none;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
+/* ========================================
+   TAB CONTENT - LIGHT MODE
+   ======================================== */
 
-        .tab-content.active {
-            display: block;
-        }
+.tab-content {
+    display: none;
+    background: #FFFFFF;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.1);
+}
 
-        .section-title {
-            color: #667eea;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
-        }
+.tab-content.active {
+    display: block;
+}
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+.section-title {
+    color: #7C3AED;
+    font-size: 1.6em;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #E2E8F0;
+    padding-bottom: 8px;
+    font-weight: 700;
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-        }
+/* ========================================
+   FORMS - CLEAN DESIGN
+   ======================================== */
 
-        input[type="number"],
-        input[type="text"],
-        input[type="date"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border 0.3s;
-        }
+.form-group {
+    margin-bottom: 16px;
+}
 
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #334155;
+    font-weight: 600;
+    font-size: 0.9em;
+}
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
+input[type="number"],
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+    background: #F8FAFC;
+    color: #1E293B;
+}
 
-        .btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-        }
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #7C3AED;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
 
-        .btn:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
-        }
+textarea {
+    resize: vertical;
+    min-height: 90px;
+    font-family: inherit;
+}
 
-        .btn-success {
-            background: #4caf50;
-        }
+/* ========================================
+   BOTÕES COM NEON GLOW REAL
+   ======================================== */
 
-        .btn-success:hover {
-            background: #45a049;
-        }
+.btn {
+    background: linear-gradient(135deg, #7C3AED, #6366F1);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    position: relative;
+    overflow: hidden;
+}
 
-        .btn-danger {
-            background: #f44336;
-        }
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
 
-        .btn-danger:hover {
-            background: #da190b;
-        }
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(124, 58, 237, 0.6),
+                0 0 50px rgba(124, 58, 237, 0.3),
+                0 8px 20px rgba(124, 58, 237, 0.4);
+}
 
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
+.btn:hover::before {
+    left: 100%;
+}
 
-        .calendar-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f5f5f5;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 0 30px rgba(124, 58, 237, 0.8),
+                0 0 60px rgba(124, 58, 237, 0.5);
+}
 
-        .calendar-day:hover {
-            background: #e0e0e0;
-        }
+.btn-success {
+    background: linear-gradient(135deg, #10B981, #059669);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
 
-        .calendar-day.completed {
-            background: #4caf50;
-            color: white;
-        }
+.btn-success:hover {
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.6),
+                0 0 50px rgba(16, 185, 129, 0.3),
+                0 8px 20px rgba(16, 185, 129, 0.4);
+}
 
-        .calendar-day.today {
-            border: 3px solid #667eea;
-        }
+/* ========================================
+   DAILY CARE - FLAT DESIGN
+   ======================================== */
 
-        .calendar-header {
-            font-weight: bold;
-            color: #667eea;
-            text-align: center;
-            padding: 10px;
-        }
+.daily-care {
+    background: #F8FAFC;
+    padding: 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+    border: 1.5px solid #E2E8F0;
+}
 
-        .history-item {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 4px solid #667eea;
-        }
+.care-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid #E2E8F0;
+}
 
-        .history-date {
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
-        }
+.care-checkbox:hover {
+    background: #F1F5F9;
+    border-color: #7C3AED;
+}
 
-        .history-details {
-            color: #666;
-        }
+.care-checkbox input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: #7C3AED;
+}
 
-        .progress-bar {
-            width: 100%;
-            height: 30px;
-            background: #e0e0e0;
-            border-radius: 15px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
+/* ========================================
+   CALENDAR - CLEAN GRID
+   ======================================== */
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4caf50, #8bc34a);
-            transition: width 0.5s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+}
 
-        .image-upload {
-            border: 2px dashed #667eea;
-            padding: 30px;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #F8FAFC;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 2px;
+    font-size: 0.75em;
+    border: 1px solid #E2E8F0;
+    min-height: 45px;
+}
 
-        .image-upload:hover {
-            background: #f5f5ff;
-        }
+.calendar-day:hover {
+    background: #E2E8F0;
+    transform: scale(1.05);
+}
 
-        .image-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
+.calendar-day.completed {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    border-color: #059669;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
 
-        .image-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
+.calendar-day.today {
+    border: 2px solid #7C3AED;
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.3);
+}
 
-        .image-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
+.calendar-icons {
+    font-size: 0.65em;
+    margin-top: 1px;
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
-        .image-item .delete-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #f44336;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            font-size: 1.2em;
-        }
+.calendar-xp {
+    font-size: 0.6em;
+    color: #7C3AED;
+    font-weight: 700;
+    margin-top: 1px;
+}
 
-        .image-date {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 5px;
-            font-size: 0.9em;
-        }
+.calendar-header {
+    font-weight: 700;
+    color: #7C3AED;
+    text-align: center;
+    padding: 8px;
+    font-size: 0.8em;
+}
 
-        .info-box {
-            background: #e3f2fd;
-            border-left: 4px solid #2196f3;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
+/* ========================================
+   HISTORY ITEMS - CLEAN
+   ======================================== */
 
-        .info-box strong {
-            color: #1976d2;
-        }
+.history-item {
+    background: #F8FAFC;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border-left: 3px solid #7C3AED;
+    font-size: 0.9em;
+}
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+.history-date {
+    font-weight: 700;
+    color: #7C3AED;
+    margin-bottom: 4px;
+    font-size: 0.95em;
+}
 
-        @media (max-width: 768px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
+.history-details {
+    color: #64748B;
+    font-size: 0.9em;
+}
 
-            h1 {
-                font-size: 1.8em;
-            }
+/* ========================================
+   INFO BOX - FLAT
+   ======================================== */
 
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-        }
+.info-box {
+    background: #EFF6FF;
+    border-left: 3px solid #3B82F6;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 0.9em;
+}
 
-        .month-selector {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 8px;
-        }
+.info-box strong {
+    color: #1E40AF;
+    font-weight: 700;
+}
 
-        .month-selector button {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+/* ========================================
+   MONTH SELECTOR - NEON BUTTONS
+   ======================================== */
 
-        .month-selector span {
-            font-weight: bold;
-            font-size: 1.2em;
-            color: #333;
-        }
+.month-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: #F8FAFC;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+}
+
+.month-selector button {
+    background: linear-gradient(135deg, #00E5FF, #00B8D4);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 229, 255, 0.3);
+}
+
+.month-selector button:hover {
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.6),
+                0 0 40px rgba(0, 229, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.month-selector span {
+    font-weight: 700;
+    font-size: 1.1em;
+    color: #1E293B;
+}
+
+/* ========================================
+   IMAGE UPLOAD - MODERN
+   ======================================== */
+
+.image-upload {
+    border: 2px dashed #CBD5E1;
+    padding: 24px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #F8FAFC;
+}
+
+.image-upload:hover {
+    background: #EFF6FF;
+    border-color: #7C3AED;
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.image-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
+    border: 1px solid #E2E8F0;
+}
+
+.image-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.image-item .delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #EF4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 1.1em;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+    transition: all 0.3s ease;
+}
+
+.image-item .delete-btn:hover {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.7);
+}
+
+.image-date {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(30, 41, 59, 0.8);
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+/* ========================================
+   REPORT SECTION
+   ======================================== */
+
+.report-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #E2E8F0;
+}
+
+.report-section:last-child {
+    border-bottom: none;
+}
+
+.report-section h3 {
+    color: #7C3AED;
+    margin-bottom: 12px;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.report-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.report-stat {
+    background: #F8FAFC;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #E2E8F0;
+}
+
+.report-stat-value {
+    font-size: 1.8em;
+    font-weight: 800;
+    color: #7C3AED;
+}
+
+.report-stat-label {
+    color: #64748B;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+/* ========================================
+   CHARTS - CLEAN CONTAINER
+   ======================================== */
+
+.chart-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    margin: 16px 0;
+    border: 1px solid rgba(124, 58, 237, 0.1);
+}
+
+.chart-container h3 {
+    color: #7C3AED;
+    font-size: 1.2em;
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 280px;
+    margin: 0 auto;
+}
+
+.chart-empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: #94A3B8;
+}
+
+.chart-empty-state svg {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 12px;
+    opacity: 0.3;
+}
+
+/* ========================================
+   GRID UTILITIES
+   ======================================== */
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.mini-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-top: 12px;
+}
+
+.mini-calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #F8FAFC;
+    border-radius: 4px;
+    font-size: 0.75em;
+    padding: 2px;
+    border: 1px solid #E2E8F0;
+    font-weight: 600;
+}
+
+.mini-calendar-day.active {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+/* ========================================
+   RESPONSIVIDADE MOBILE
+   ======================================== */
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    header {
+        padding: 16px 18px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    .subtitle {
+        font-size: 0.9em;
+    }
+
+    .xp-container {
+        padding: 16px;
+    }
+
+    .rank-badge {
+        padding: 8px 18px;
+        font-size: 1em;
+    }
+
+    .xp-bars {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 14px;
+    }
+
+    .stat-value {
+        font-size: 1.8em;
+    }
+
+    .tabs {
+        gap: 6px;
+    }
+
+    .tab-button {
+        padding: 9px 14px;
+        font-size: 0.85em;
+        flex: 1;
+        min-width: calc(50% - 3px);
+    }
+
+    .tab-content {
+        padding: 16px;
+    }
+
+    .section-title {
+        font-size: 1.3em;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+        font-size: 16px;
+    }
+
+    .btn {
+        padding: 11px 18px;
+        font-size: 0.9em;
+        width: 100%;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .calendar {
+        gap: 6px;
+    }
+
+    .calendar-day {
+        font-size: 0.75em;
+        padding: 3px;
+        min-height: 48px;
+    }
+
+    .chart-wrapper {
+        height: 240px;
+    }
+
+    .image-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .report-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+.report .calendar-day > div:first-child {
+    font-size: 1.5em;   /* NÚMERO DO DIA */
+    font-weight: 700;
+}
+
+.report .calendar-icons {
+    font-size: 1.3em;   /* ÍCONES */
+}
+
+.report .calendar-xp {
+    font-size: 0.85em;
+    font-weight: 700;
+}
+
+@media (max-width: 375px) {
+    h1 {
+        font-size: 1.3em;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+        font-size: 1.6em;
+    }
+
+    .tab-button {
+        min-width: 100%;
+    }
+}
+
+@media (min-width: 769px) {
+
+    .calendar {
+        gap: 5px;
+    }
+
+    .calendar-day {
+        aspect-ratio: auto !important; /* 🔥 ISSO resolve */
+        height: 100px !important;       /* controla o tamanho real */
+        min-height: unset !important;
+        font-size: 1.10em;
+        padding: 1px;
+    }
+
+    .calendar-icons {
+        font-size: 1.10em;
+    }
+
+    .calendar-xp {
+        font-size: 1.10em;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -400,6 +1048,52 @@
             <h1>🏥 Acompanhamento Terapêutico</h1>
             <p class="subtitle">Sistema de Monitoramento - Pectus Excavatum</p>
         </header>
+
+        <div class="xp-container">
+            <div class="rank-display">
+                <div class="rank-badge" id="rankBadge">Iniciante Consciente</div>
+            </div>
+            <div class="xp-bars">
+                <div class="xp-bar-container">
+                    <div class="xp-bar-label">
+                        <span>🫁 Tratamento</span>
+                        <span id="xpTratamentoText">0 XP</span>
+                    </div>
+                    <div class="xp-bar">
+                        <div class="xp-bar-fill" id="xpTratamentoBar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="xp-bar-container">
+                    <div class="xp-bar-label">
+                        <span>💪 Corpo</span>
+                        <span id="xpCorpoText">0 XP</span>
+                    </div>
+                    <div class="xp-bar">
+                        <div class="xp-bar-fill" id="xpCorpoBar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="xp-bar-container">
+                    <div class="xp-bar-label">
+                        <span>🍽️ Cuidado</span>
+                        <span id="xpCuidadoText">0 XP</span>
+                    </div>
+                    <div class="xp-bar">
+                        <div class="xp-bar-fill" id="xpCuidadoBar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="xp-bar-container">
+                    <div class="xp-bar-label">
+                        <span>⭐ XP Geral</span>
+                        <span id="xpGeralText">0 XP</span>
+                    </div>
+                    <div class="xp-bar">
+                        <div class="xp-bar-fill" id="xpGeralBar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="messageContainer"></div>
 
         <div class="dashboard">
             <div class="stat-card">
@@ -423,16 +1117,27 @@
                 <div class="stat-label">kg</div>
             </div>
         </div>
-
+            <div class="stat-card">
+                <h3>🔥 Sequência Atual</h3>
+                <div class="stat-value" id="streakAtualValue">0</div>
+                <div class="stat-label">dias consecutivos</div>
+        </div>
+    <div class="stat-card">
+        <h3>🏆 Maior Sequência</h3>
+        <div class="stat-value" id="maiorStreakValue">0</div>
+        <div class="stat-label">recorde pessoal</div>
+    </div>
+</div>
         <div class="tabs">
             <button class="tab-button active" onclick="openTab('vacuum')">Vacuum Bell</button>
             <button class="tab-button" onclick="openTab('workout')">Academia</button>
+            <button class="tab-button" onclick="openTab('care')">Cuidado Diário</button>
             <button class="tab-button" onclick="openTab('weight')">Peso</button>
             <button class="tab-button" onclick="openTab('measurement')">Medição Pectus</button>
-            <button class="tab-button" onclick="openTab('photos')">Fotos de Progresso</button>
+            <button class="tab-button" onclick="openTab('photos')">Fotos</button>
+            <button class="tab-button" onclick="openTab('report')">📊 Relatório</button>
         </div>
 
-        <!-- TAB VACUUM BELL -->
         <div id="vacuum" class="tab-content active">
             <h2 class="section-title">💨 Uso do Vacuum Bell</h2>
             
@@ -478,6 +1183,13 @@
             </div>
 
             <div class="form-group">
+                <label>
+                    <input type="checkbox" id="noPainCheckbox"> 
+                    Usei sem dor ou desconforto (+5 XP bônus)
+                </label>
+            </div>
+
+            <div class="form-group">
                 <label>Observações de Hoje</label>
                 <textarea id="vacuumNotes" placeholder="Dor, conforto, resultados observados..."></textarea>
             </div>
@@ -492,11 +1204,18 @@
 
             <div class="calendar" id="vacuumCalendar"></div>
 
-            <h3 style="margin-top: 30px; color: #667eea;">📊 Histórico</h3>
-            <div id="vacuumHistory"></div>
+            <!-- GRÁFICO DE USO MENSAL DO VACUUM - NOVO -->
+<div class="chart-container">
+    <h3>📊 Uso Mensal do Vacuum Bell</h3>
+    <div class="chart-wrapper">
+        <canvas id="chartVacuum"></canvas>
+    </div>
+</div>
+
+<h3 style="margin-top: 30px; color: #667eea;">📊 Histórico</h3>
+<div id="vacuumHistory"></div>
         </div>
 
-        <!-- TAB ACADEMIA -->
         <div id="workout" class="tab-content">
             <h2 class="section-title">💪 Academia - Treino Diário</h2>
 
@@ -530,7 +1249,46 @@
             <div id="workoutHistory"></div>
         </div>
 
-        <!-- TAB PESO -->
+        <div id="care" class="tab-content">
+            <h2 class="section-title">🍽️ Cuidado Diário</h2>
+            
+            <div class="info-box">
+                <strong>ℹ️ Cuidado pessoal:</strong> Marque quando você cuidar da sua alimentação, postura ou bem-estar geral.
+            </div>
+
+            <div class="daily-care">
+                <div class="care-checkbox" onclick="toggleCareCheckbox()">
+                    <input type="checkbox" id="careCheckbox">
+                    <label for="careCheckbox" style="cursor: pointer; margin: 0;">
+                        Hoje eu cuidei de mim (alimentação, postura, bem-estar)
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>🍽️ O que comi hoje (opcional)</label>
+                <textarea id="careFood" placeholder="Ex: Arroz, feijão, frango, salada..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>🫁 Respiração, alongamento ou autocuidado (opcional)</label>
+                <textarea id="careSelfCare" placeholder="Ex: 10 minutos de respiração, alongamento da coluna..."></textarea>
+            </div>
+
+            <button class="btn btn-success" onclick="checkInCare()">✅ Registrar Cuidado de Hoje</button>
+
+            <div class="month-selector">
+                <button onclick="changeCareMonth(-1)">← Anterior</button>
+                <span id="careMonthLabel"></span>
+                <button onclick="changeCareMonth(1)">Próximo →</button>
+            </div>
+
+            <div class="calendar" id="careCalendar"></div>
+
+            <h3 style="margin-top: 30px; color: #667eea;">📊 Histórico</h3>
+            <div id="careHistory"></div>
+        </div>
+
         <div id="weight" class="tab-content">
             <h2 class="section-title">⚖️ Acompanhamento de Peso</h2>
 
@@ -542,10 +1300,21 @@
             <button class="btn btn-success" onclick="saveWeight()">💾 Salvar Peso</button>
 
             <h3 style="margin-top: 30px; color: #667eea;">📊 Evolução do Peso</h3>
-            <div id="weightHistory"></div>
+
+            <!-- GRÁFICO DE PESO - NOVO -->
+            <div class="chart-container">
+            <h3>📈 Evolução do Peso</h3>
+            <div class="chart-wrapper">
+            <canvas id="chartPeso"></canvas>
+            </div>
+       </div>
+
+<!-- Histórico em lista continua existindo -->
+<h3 style="margin-top: 30px; color: #667eea;">📋 Histórico Detalhado</h3>
+<div id="weightHistory"></div>
+            
         </div>
 
-        <!-- TAB MEDIÇÃO PECTUS -->
         <div id="measurement" class="tab-content">
             <h2 class="section-title">📏 Medição do Pectus</h2>
 
@@ -562,10 +1331,20 @@
             <button class="btn btn-success" onclick="saveMeasurement()">💾 Salvar Medição</button>
 
             <h3 style="margin-top: 30px; color: #667eea;">📊 Evolução das Medições</h3>
-            <div id="measurementHistory"></div>
+
+<!-- GRÁFICO DE PROFUNDIDADE PECTUS - NOVO -->
+<div class="chart-container">
+    <h3>📉 Profundidade do Pectus ao Longo do Tempo</h3>
+    <div class="chart-wrapper">
+        <canvas id="chartPectus"></canvas>
+    </div>
+</div>
+
+<!-- Histórico em lista continua existindo -->
+<h3 style="margin-top: 30px; color: #667eea;">📋 Histórico Detalhado</h3>
+<div id="measurementHistory"></div>
         </div>
 
-        <!-- TAB FOTOS -->
         <div id="photos" class="tab-content">
             <h2 class="section-title">📸 Fotos de Progresso</h2>
 
@@ -584,12 +1363,31 @@
 
             <div class="image-gallery" id="photoGallery"></div>
         </div>
+
+        <div id="report" class="tab-content">
+            <h2 class="section-title">📊 Relatório Mensal</h2>
+            
+            <div class="month-selector">
+                <button onclick="changeReportMonth(-1)">← Anterior</button>
+                <span id="reportMonthLabel"></span>
+                <button onclick="changeReportMonth(1)">Próximo →</button>
+            </div>
+
+            <div id="reportContent"></div>
+        </div>
     </div>
 
+<!-- Chart.js CDN - ADICIONAR ANTES DO  PRINCIPAL -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
     <script>
-        // INICIALIZAÇÃO
+        // ========================================
+        // DADOS E VARIÁVEIS GLOBAIS
+        // ========================================
+        
         let vacuumData = JSON.parse(localStorage.getItem('vacuumData')) || {};
         let workoutData = JSON.parse(localStorage.getItem('workoutData')) || {};
+        let careData = JSON.parse(localStorage.getItem('careData')) || {};
         let weightData = JSON.parse(localStorage.getItem('weightData')) || [];
         let measurementData = JSON.parse(localStorage.getItem('measurementData')) || [];
         let photoData = JSON.parse(localStorage.getItem('photoData')) || [];
@@ -598,12 +1396,46 @@
             vacuumMaxTime: 60,
             previousDaysAdded: 0
         };
+    
+        // SISTEMA DE XP
+        let xpData = JSON.parse(localStorage.getItem('xpData')) || {
+            xpTratamento: 0,
+            xpCorpo: 0,
+            xpCuidado: 0,
+            xpGeral: 0,
+            lastActivity: formatDate(new Date())
+        };
+        let streakData = JSON.parse(localStorage.getItem('streakData')) || {
+           streakAtual: 0,
+           maiorStreak: 0,
+           ultimoDiaAtivo: null,
+           diasPausados: 0,
+           streak7Bonus: false
+        };
+        // PATENTES
+        const ranks = [
+            { name: 'Iniciante Consciente', xp: 0 },
+            { name: 'Em Adaptação', xp: 100 },
+            { name: 'Persistente', xp: 300 },
+            { name: 'Disciplinado', xp: 600 },
+            { name: 'Resiliente', xp: 1000 },
+            { name: 'Constante', xp: 1500 },
+            { name: 'Evoluindo', xp: 2200 },
+            { name: 'Fortalecido', xp: 3000 },
+            { name: 'Referência', xp: 4000 },
+            { name: 'Em Equilíbrio', xp: 5500 }
+        ];
 
         let currentVacuumMonth = new Date();
         let currentWorkoutMonth = new Date();
+        let currentCareMonth = new Date();
         let currentPhotoMonth = new Date();
+        let currentReportMonth = new Date();
 
+        // ========================================
         // UTILITÁRIOS
+        // ========================================
+        
         function formatDate(date) {
             const d = new Date(date);
             const day = String(d.getDate()).padStart(2, '0');
@@ -627,9 +1459,451 @@
             
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
+
+            if (tabName === 'report') {
+                generateMonthlyReport();
+            }
+        }
+// ========================================
+// SISTEMA DE MENSAGENS MOTIVACIONAIS - NOVO
+// ========================================
+
+/**
+ * Biblioteca de mensagens motivacionais organizadas por contexto
+ */
+const motivationalMessages = {
+    // Mensagens de boas-vindas (quando abre o site pela primeira vez no dia)
+    boasVindas: [
+        "Oi! Que bom te ver por aqui hoje! 😊",
+        "Bem-vindo de volta! Pronto para mais um dia? 💪",
+        "E aí! Bora cuidar de você hoje? ✨",
+        "Olá! Seu progresso está te esperando 🌟",
+        "Que bom que você voltou! Vamos juntos hoje 🤗",
+        "Opa! Chegou a hora de se cuidar 💙"
+    ],
+    
+    // Mensagens quando há 1 dia sem registro (tom leve e sem pressão)
+    umDiaSemAtividade: [
+        "Ei, tudo bem por aí? Ontem você não apareceu, mas hoje é um novo dia! 🌤️",
+        "Opa, sumiu ontem! Tudo certo? Que tal registrar algo hoje? 😊",
+        "Faz um dia que você não vem... Mas relaxa, estamos aqui quando precisar! 💙",
+        "Ontem você tirou uma folga, né? Sem problema! Bora retomar hoje? 🚀",
+        "Tá tudo bem não aparecer todo dia. O importante é voltar! E você voltou! 🎉",
+        "Um dia de pausa... acontece! Que tal começar de novo hoje? ✨"
+    ],
+    
+    // Mensagens quando há 2+ dias sem registro (acolhedoras, sem culpa)
+    doisOuMaisDias: [
+        "Oi! Faz uns dias que você sumiu... Tá tudo bem? A gente entende. Voltar já é uma vitória! 💪",
+        "Olha só quem voltou! ❤️ Não importa quanto tempo passou, o que vale é estar aqui agora.",
+        "Ei, saudades de você! Sem cobranças, ok? Vamos juntos no seu ritmo 🤗",
+        "Que bom te ver de novo! Pausas fazem parte. O importante é que você voltou! 🌈",
+        "Opa! Você tá de volta e isso é o que importa. Vamos recomeçar juntos? 🌟",
+        "Bem-vindo de volta! A vida acontece, né? Mas você está aqui agora e isso é incrível! 💙"
+    ],
+    
+    // Mensagens quando já tem registro hoje (parabenização leve)
+    jaRegistrouHoje: [
+        "Você já registrou algo hoje! Que orgulho! 🎉",
+        "Opa, já cuidou de você hoje! Mandou bem! ⭐",
+        "Já marcou presença hoje! Continue assim! 💪",
+        "Você já está no caminho certo hoje! 🚀",
+        "Hoje você já apareceu! Isso é dedicação! 🌟"
+    ],
+    
+    // Mensagens quando há streak ativo (celebração)
+    streakAtivo: [
+        "🔥 {dias} dias seguidos! Você está arrasando!",
+        "💪 {dias} dias de dedicação! Incrível!",
+        "🌟 {dias} dias consecutivos! Que orgulho!",
+        "🚀 {dias} dias sem parar! Continue assim!",
+        "⭐ {dias} dias direto! Você é demais!"
+    ]
+};
+
+/**
+ * Verifica se há algum registro hoje em qualquer categoria
+ */
+function temRegistroHoje() {
+    const hoje = formatDate(new Date());
+    
+    const temVacuum = vacuumData[hoje] && vacuumData[hoje].completed;
+    const temWorkout = workoutData[hoje] && workoutData[hoje].completed;
+    const temCare = careData[hoje] && careData[hoje].completed;
+    
+    return temVacuum || temWorkout || temCare;
+}
+
+/**
+ * Calcula quantos dias se passaram desde a última atividade
+ */
+function calcularDiasSemAtividade() {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    
+    // Coletar todas as datas de atividade
+    const todasDatas = new Set([
+        ...Object.keys(vacuumData).filter(d => vacuumData[d].completed),
+        ...Object.keys(workoutData).filter(d => workoutData[d].completed),
+        ...Object.keys(careData).filter(d => careData[d].completed)
+    ]);
+    
+    if (todasDatas.size === 0) {
+        return -1; // Nunca registrou nada
+    }
+    
+    // Encontrar a data mais recente
+    const datasOrdenadas = Array.from(todasDatas).sort();
+    const ultimaAtividade = new Date(datasOrdenadas[datasOrdenadas.length - 1]);
+    ultimaAtividade.setHours(0, 0, 0, 0);
+    
+    // Calcular diferença em dias
+    const diferencaDias = Math.floor((hoje - ultimaAtividade) / (1000 * 60 * 60 * 24));
+    
+    return diferencaDias;
+}
+
+/**
+ * Seleciona uma mensagem aleatória de um array
+ */
+function getRandomMessage(messagesArray) {
+    return messagesArray[Math.floor(Math.random() * messagesArray.length)];
+}
+
+/**
+ * Exibe mensagem motivacional baseada no contexto do usuário
+ */
+function exibirMensagemMotivacional() {
+    const diasSemAtividade = calcularDiasSemAtividade();
+    const jaRegistrou = temRegistroHoje();
+    const streak = streakData.streakAtual;
+    
+    let mensagem = '';
+    let tipo = 'info';
+    
+    // LÓGICA DE DECISÃO DE QUAL MENSAGEM MOSTRAR
+    
+    // Caso 1: Nunca registrou nada ainda (primeira vez)
+    if (diasSemAtividade === -1) {
+        mensagem = "Bem-vindo! 👋 Este é seu espaço de acompanhamento. Comece registrando suas atividades nas abas acima! 💙";
+        tipo = 'info';
+    }
+    
+    // Caso 2: Já registrou algo hoje (parabenizar)
+    else if (jaRegistrou) {
+        if (streak >= 3) {
+            // Se tem streak ativo, celebrar!
+            mensagem = getRandomMessage(motivationalMessages.streakAtivo).replace('{dias}', streak);
+            tipo = 'success';
+        } else {
+            mensagem = getRandomMessage(motivationalMessages.jaRegistrouHoje);
+            tipo = 'success';
+        }
+    }
+    
+    // Caso 3: 2 ou mais dias sem atividade (acolher sem culpa)
+    else if (diasSemAtividade >= 2) {
+        mensagem = getRandomMessage(motivationalMessages.doisOuMaisDias);
+        tipo = 'info';
+    }
+    
+    // Caso 4: 1 dia sem atividade (incentivo leve)
+    else if (diasSemAtividade === 1) {
+        mensagem = getRandomMessage(motivationalMessages.umDiaSemAtividade);
+        tipo = 'info';
+    }
+    
+    // Caso 5: Ainda não registrou hoje, mas registrou ontem (boas-vindas)
+    else if (diasSemAtividade === 0) {
+        mensagem = getRandomMessage(motivationalMessages.boasVindas);
+        tipo = 'info';
+    }
+    
+    // Exibir a mensagem
+    if (mensagem) {
+        showMessage(mensagem, tipo);
+    }
+}
+
+/**
+ * Controla se a mensagem já foi exibida na sessão atual
+ * Evita mostrar mensagem repetida se o usuário recarregar a página
+ */
+function deveMostrarMensagemDeBoasVindas() {
+    const chave = 'mensagemExibidaHoje';
+    const hoje = formatDate(new Date());
+    const ultimaExibicao = sessionStorage.getItem(chave);
+    
+    // Se já exibiu hoje nesta sessão, não mostrar novamente
+    if (ultimaExibicao === hoje) {
+        return false;
+    }
+    
+    // Marcar como exibida
+    sessionStorage.setItem(chave, hoje);
+    return true;
+}
+
+/**
+ * Função principal que controla quando exibir mensagens
+ */
+function verificarEExibirMensagem() {
+    // Só exibe se ainda não exibiu nesta sessão
+    if (deveMostrarMensagemDeBoasVindas()) {
+        // Aguardar 800ms para dar tempo da página carregar
+        setTimeout(() => {
+            exibirMensagemMotivacional();
+        }, 800);
+    }
+}
+        // ========================================
+        // SISTEMA DE XP E GAMIFICAÇÃO
+        // ========================================
+
+        function addXP(category, amount, message) {
+            xpData[category] += amount;
+            
+            // Calcular XP Geral (média equilibrada)
+            xpData.xpGeral = Math.floor(
+                (xpData.xpTratamento + xpData.xpCorpo + xpData.xpCuidado) / 3
+            );
+            
+            xpData.lastActivity = formatDate(new Date());
+            localStorage.setItem('xpData', JSON.stringify(xpData));
+            
+            updateXPDisplay();
+            showMessage(message, 'success');
         }
 
+        function removeXP(category, percentage) {
+            const amount = Math.floor(xpData[category] * (percentage / 100));
+            xpData[category] = Math.max(0, xpData[category] - amount);
+            
+            // Recalcular XP Geral
+            xpData.xpGeral = Math.floor(
+                (xpData.xpTratamento + xpData.xpCorpo + xpData.xpCuidado) / 3
+            );
+            
+            localStorage.setItem('xpData', JSON.stringify(xpData));
+            updateXPDisplay();
+        }
+
+        /**
+ * Verifica inatividade e remove XP se necessário
+ * (Mensagens agora são controladas por verificarEExibirMensagem)
+ */
+function checkInactivity() {
+    const today = new Date();
+    const lastActivity = new Date(xpData.lastActivity);
+    const daysDiff = Math.floor((today - lastActivity) / (1000 * 60 * 60 * 24));
+
+    // Só penalizar se passou 3+ dias
+    if (daysDiff >= 3) {
+        const todayStr = formatDate(today);
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = formatDate(yesterday);
+        const twoDaysAgo = new Date(today);
+        twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+        const twoDaysAgoStr = formatDate(twoDaysAgo);
+
+        // Verificar inatividade no Vacuum Bell
+        if (!vacuumData[todayStr] && !vacuumData[yesterdayStr] && !vacuumData[twoDaysAgoStr]) {
+            removeXP('xpTratamento', 5);
+        }
+
+        // Verificar inatividade na academia
+        if (!workoutData[todayStr] && !workoutData[yesterdayStr] && !workoutData[twoDaysAgoStr]) {
+            removeXP('xpCorpo', 5);
+        }
+
+        // Verificar inatividade no cuidado
+        if (!careData[todayStr] && !careData[yesterdayStr] && !careData[twoDaysAgoStr]) {
+            removeXP('xpCuidado', 5);
+        }
+
+        // Reduzir XP geral
+        removeXP('xpGeral', 2);
+        
+        // Mensagem de inatividade não é mais necessária aqui
+        // Pois verificarEExibirMensagem() já cuida disso
+    }
+}
+        function getCurrentRank() {
+            let currentRank = ranks[0];
+            for (let i = 0; i < ranks.length; i++) {
+                if (xpData.xpGeral >= ranks[i].xp) {
+                    currentRank = ranks[i];
+                }
+            }
+            return currentRank;
+        }
+
+        function updateXPDisplay() {
+            // Atualizar textos
+            document.getElementById('xpTratamentoText').textContent = xpData.xpTratamento + ' XP';
+            document.getElementById('xpCorpoText').textContent = xpData.xpCorpo + ' XP';
+            document.getElementById('xpCuidadoText').textContent = xpData.xpCuidado + ' XP';
+            document.getElementById('xpGeralText').textContent = xpData.xpGeral + ' XP';
+
+            // Atualizar barras (máximo de 1000 para visualização)
+            const maxXP = 1000;
+            document.getElementById('xpTratamentoBar').style.width = 
+                Math.min((xpData.xpTratamento / maxXP) * 100, 100) + '%';
+            document.getElementById('xpCorpoBar').style.width = 
+                Math.min((xpData.xpCorpo / maxXP) * 100, 100) + '%';
+            document.getElementById('xpCuidadoBar').style.width = 
+                Math.min((xpData.xpCuidado / maxXP) * 100, 100) + '%';
+            document.getElementById('xpGeralBar').style.width = 
+                Math.min((xpData.xpGeral / maxXP) * 100, 100) + '%';
+
+            // Atualizar patente
+            const currentRank = getCurrentRank();
+            document.getElementById('rankBadge').textContent = currentRank.name;
+        }
+
+        function showMessage(message, type = 'info') {
+            const container = document.getElementById('messageContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message-box message-${type}`;
+            messageDiv.textContent = message;
+            
+            container.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+        // ========================================
+// FUNÇÕES DE STREAK
+// ========================================
+
+function updateStreak() {
+    const hoje = formatDate(new Date());
+    
+    if (streakData.ultimoDiaAtivo === hoje) {
+        return;
+    }
+    
+    if (!streakData.ultimoDiaAtivo) {
+        streakData.streakAtual = 1;
+        streakData.maiorStreak = 1;
+        streakData.ultimoDiaAtivo = hoje;
+        streakData.diasPausados = 0;
+        saveStreakData();
+        return;
+    }
+    
+    const ultimaData = new Date(streakData.ultimoDiaAtivo);
+    const dataHoje = new Date(hoje);
+    const diferencaDias = Math.floor((dataHoje - ultimaData) / (1000 * 60 * 60 * 24));
+    
+    if (diferencaDias === 1) {
+        streakData.streakAtual++;
+        streakData.diasPausados = 0;
+        
+        if (streakData.streakAtual > streakData.maiorStreak) {
+            streakData.maiorStreak = streakData.streakAtual;
+            showMessage(`🏆 Novo recorde! ${streakData.maiorStreak} dias consecutivos!`, 'success');
+        }
+        
+        if (streakData.streakAtual === 7 && !streakData.streak7Bonus) {
+            addXP('xpGeral', 10, '🔥 +10 XP de BÔNUS por 7 dias consecutivos! Continue assim!');
+            streakData.streak7Bonus = true;
+        }
+        
+        if (streakData.streakAtual % 7 === 0 && streakData.streakAtual > 7) {
+            addXP('xpGeral', 10, `🔥 +10 XP! ${streakData.streakAtual} dias de dedicação total!`);
+        }
+        
+    } else if (diferencaDias > 1) {
+        streakData.diasPausados = diferencaDias - 1;
+        
+        if (streakData.diasPausados >= 7) {
+            streakData.streakAtual = 1;
+            streakData.diasPausados = 0;
+            streakData.streak7Bonus = false;
+            showMessage(`Você pausou por ${diferencaDias} dias, mas está de volta! 💪 Vamos recomeçar juntos.`, 'info');
+        } else {
+            streakData.streakAtual = 1;
+            showMessage(`Você pausou por ${diferencaDias} dias. Tudo bem! Estamos recomeçando. 😊`, 'info');
+        }
+    }
+    
+    streakData.ultimoDiaAtivo = hoje;
+    saveStreakData();
+    updateStreakDisplay();
+}
+
+function saveStreakData() {
+    localStorage.setItem('streakData', JSON.stringify(streakData));
+}
+
+function updateStreakDisplay() {
+    const streakAtualEl = document.getElementById('streakAtualValue');
+    const maiorStreakEl = document.getElementById('maiorStreakValue');
+    
+    if (streakAtualEl) {
+        streakAtualEl.textContent = streakData.streakAtual;
+    }
+    
+    if (maiorStreakEl) {
+        maiorStreakEl.textContent = streakData.maiorStreak;
+    }
+}
+
+function recalcularStreak() {
+    const todasDatas = new Set([
+        ...Object.keys(vacuumData).filter(d => vacuumData[d].completed),
+        ...Object.keys(workoutData).filter(d => workoutData[d].completed),
+        ...Object.keys(careData).filter(d => careData[d].completed)
+    ]);
+    
+    const datasOrdenadas = Array.from(todasDatas).sort();
+    
+    if (datasOrdenadas.length === 0) {
+        streakData.streakAtual = 0;
+        streakData.maiorStreak = 0;
+        streakData.ultimoDiaAtivo = null;
+        saveStreakData();
+        return;
+    }
+    
+    let streakAtual = 1;
+    let maiorStreak = 1;
+    
+    for (let i = 1; i < datasOrdenadas.length; i++) {
+        const dataAnterior = new Date(datasOrdenadas[i - 1]);
+        const dataAtual = new Date(datasOrdenadas[i]);
+        const diferencaDias = Math.floor((dataAtual - dataAnterior) / (1000 * 60 * 60 * 24));
+        
+        if (diferencaDias === 1) {
+            streakAtual++;
+            maiorStreak = Math.max(maiorStreak, streakAtual);
+        } else {
+            streakAtual = 1;
+        }
+    }
+    
+    const ultimaData = new Date(datasOrdenadas[datasOrdenadas.length - 1]);
+    const hoje = new Date();
+    const diferencaDias = Math.floor((hoje - ultimaData) / (1000 * 60 * 60 * 24));
+    
+    if (diferencaDias > 1) {
+        streakAtual = 0;
+    }
+    
+    streakData.streakAtual = streakAtual;
+    streakData.maiorStreak = Math.max(maiorStreak, streakData.maiorStreak);
+    streakData.ultimoDiaAtivo = datasOrdenadas[datasOrdenadas.length - 1];
+    
+    saveStreakData();
+    updateStreakDisplay();
+}
+        // ========================================
         // VACUUM BELL
+        // ========================================
+
         function updateVacuumTime() {
             const week = parseInt(document.getElementById('vacuumWeek').value);
             const maxTime = parseInt(document.getElementById('vacuumMaxTime').value);
@@ -652,14 +1926,21 @@
             if (days > 0) {
                 settings.previousDaysAdded = days;
                 localStorage.setItem('settings', JSON.stringify(settings));
-                alert(`${days} dias anteriores adicionados com sucesso!`);
+                showMessage(`${days} dias anteriores adicionados com sucesso!`, 'success');
                 updateDashboard();
             }
         }
 
         function checkInVacuum() {
             const today = formatDate(new Date());
+            
+            if (vacuumData[today] && vacuumData[today].completed) {
+                showMessage('Você já registrou o Vacuum Bell hoje!', 'info');
+                return;
+            }
+
             const notes = document.getElementById('vacuumNotes').value;
+            const noPain = document.getElementById('noPainCheckbox').checked;
             const week = settings.vacuumWeek;
             const maxTime = settings.vacuumMaxTime;
             let time = week * 5;
@@ -669,15 +1950,31 @@
                 completed: true,
                 notes: notes,
                 time: time,
-                week: week
+                week: week,
+                noPain: noPain
             };
             
             localStorage.setItem('vacuumData', JSON.stringify(vacuumData));
+            
+            // ADICIONAR XP
+            let xpGained = 10;
+            let message = '✅ +10 XP por usar o Vacuum Bell!';
+            
+            if (noPain) {
+                xpGained += 5;
+                message = '✅ +15 XP! Uso consciente sem dor. Você está arrasando! 🎉';
+            }
+            
+            addXP('xpTratamento', xpGained, message);
+            updateStreak();
+            
             document.getElementById('vacuumNotes').value = '';
-            alert('✅ Uso do Vacuum Bell registrado com sucesso!');
+            document.getElementById('noPainCheckbox').checked = false;
+            
             renderVacuumCalendar();
             updateDashboard();
             loadVacuumHistory();
+            updateAllCharts();
         }
 
         function renderVacuumCalendar() {
@@ -707,16 +2004,32 @@
                 const date = formatDate(new Date(year, month, day));
                 const dayEl = document.createElement('div');
                 dayEl.className = 'calendar-day';
-                dayEl.textContent = day;
+                
+                const dayNum = document.createElement('div');
+                dayNum.textContent = day;
+                dayEl.appendChild(dayNum);
+                
+                const icons = document.createElement('div');
+                icons.className = 'calendar-icons';
                 
                 if (vacuumData[date] && vacuumData[date].completed) {
                     dayEl.classList.add('completed');
+                    icons.textContent = '🫁';
+                    
+                    // Adicionar XP do dia
+                    const xpDiv = document.createElement('div');
+                    xpDiv.className = 'calendar-xp';
+                    let xpGained = 10;
+                    if (vacuumData[date].noPain) xpGained += 5;
+                    xpDiv.textContent = `+${xpGained}`;
+                    dayEl.appendChild(xpDiv);
                 }
                 
                 if (date === today) {
                     dayEl.classList.add('today');
                 }
                 
+                dayEl.appendChild(icons);
                 calendar.appendChild(dayEl);
             }
             
@@ -748,7 +2061,8 @@
                     <div class="history-date">${new Date(date).toLocaleDateString('pt-BR')}</div>
                     <div class="history-details">
                         <strong>Tempo:</strong> ${data.time} minutos | 
-                        <strong>Semana:</strong> ${data.week}<br>
+                        <strong>Semana:</strong> ${data.week}
+                        ${data.noPain ? ' | ✅ Sem dor' : ''}<br>
                         ${data.notes ? `<strong>Obs:</strong> ${data.notes}` : ''}
                     </div>
                 `;
@@ -756,14 +2070,23 @@
             });
         }
 
-        // TREINO
+        // ========================================
+        // TREINO / ACADEMIA
+        // ========================================
+
         function checkInWorkout() {
             const today = formatDate(new Date());
+            
+            if (workoutData[today] && workoutData[today].completed) {
+                showMessage('Você já registrou treino hoje!', 'info');
+                return;
+            }
+
             const type = document.getElementById('workoutType').value;
             const notes = document.getElementById('workoutNotes').value;
             
             if (!type) {
-                alert('Por favor, selecione o treino do dia!');
+                showMessage('Por favor, selecione o treino do dia!', 'warning');
                 return;
             }
             
@@ -774,9 +2097,22 @@
             };
             
             localStorage.setItem('workoutData', JSON.stringify(workoutData));
+            
+            // ADICIONAR XP
+            let xpGained = 10;
+            let message = '💪 +10 XP por treinar hoje!';
+            
+            if (notes && notes.length > 10) {
+                xpGained += 5;
+                message = '💪 +15 XP! Treino com observações detalhadas. Muito bem!';
+            }
+            
+            addXP('xpCorpo', xpGained, message);
+            updateStreak();
+            
             document.getElementById('workoutType').value = '';
             document.getElementById('workoutNotes').value = '';
-            alert('✅ Treino registrado com sucesso!');
+            
             renderWorkoutCalendar();
             updateDashboard();
             loadWorkoutHistory();
@@ -809,16 +2145,32 @@
                 const date = formatDate(new Date(year, month, day));
                 const dayEl = document.createElement('div');
                 dayEl.className = 'calendar-day';
-                dayEl.textContent = day;
+                
+                const dayNum = document.createElement('div');
+                dayNum.textContent = day;
+                dayEl.appendChild(dayNum);
+                
+                const icons = document.createElement('div');
+                icons.className = 'calendar-icons';
                 
                 if (workoutData[date] && workoutData[date].completed) {
                     dayEl.classList.add('completed');
+                    icons.textContent = '💪';
+                    
+                    // Adicionar XP do dia
+                    const xpDiv = document.createElement('div');
+                    xpDiv.className = 'calendar-xp';
+                    let xpGained = 10;
+                    if (workoutData[date].notes && workoutData[date].notes.length > 10) xpGained += 5;
+                    xpDiv.textContent = `+${xpGained}`;
+                    dayEl.appendChild(xpDiv);
                 }
                 
                 if (date === today) {
                     dayEl.classList.add('today');
                 }
                 
+                dayEl.appendChild(icons);
                 calendar.appendChild(dayEl);
             }
             
@@ -857,11 +2209,150 @@
             });
         }
 
+        // ========================================
+        // CUIDADO DIÁRIO
+        // ========================================
+
+        function toggleCareCheckbox() {
+            const checkbox = document.getElementById('careCheckbox');
+            checkbox.checked = !checkbox.checked;
+        }
+
+        function checkInCare() {
+            const today = formatDate(new Date());
+            
+            if (careData[today] && careData[today].completed) {
+                showMessage('Você já registrou o cuidado de hoje!', 'info');
+                return;
+            }
+
+            const checked = document.getElementById('careCheckbox').checked;
+            
+            if (!checked) {
+                showMessage('Marque o checkbox para registrar o cuidado!', 'warning');
+                return;
+            }
+            
+            const food = document.getElementById('careFood').value;
+            const selfCare = document.getElementById('careSelfCare').value;
+            
+            careData[today] = {
+                completed: true,
+                food: food,
+                selfCare: selfCare
+            };
+            
+            localStorage.setItem('careData', JSON.stringify(careData));
+            
+            // ADICIONAR XP
+            addXP('xpCuidado', 5, '🍽️ +5 XP por cuidar de você hoje!');
+            updateStreak();
+            document.getElementById('careCheckbox').checked = false;
+            document.getElementById('careFood').value = '';
+            document.getElementById('careSelfCare').value = '';
+            renderCareCalendar();
+            loadCareHistory();
+        }
+
+        function renderCareCalendar() {
+            const calendar = document.getElementById('careCalendar');
+            calendar.innerHTML = '';
+            
+            const year = currentCareMonth.getFullYear();
+            const month = currentCareMonth.getMonth();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            dayNames.forEach(name => {
+                const header = document.createElement('div');
+                header.className = 'calendar-header';
+                header.textContent = name;
+                calendar.appendChild(header);
+            });
+            
+            for (let i = 0; i < firstDay; i++) {
+                calendar.appendChild(document.createElement('div'));
+            }
+            
+            const today = formatDate(new Date());
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = formatDate(new Date(year, month, day));
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day';
+                
+                const dayNum = document.createElement('div');
+                dayNum.textContent = day;
+                dayEl.appendChild(dayNum);
+                
+                const icons = document.createElement('div');
+                icons.className = 'calendar-icons';
+                
+                if (careData[date] && careData[date].completed) {
+                    dayEl.classList.add('completed');
+                    icons.textContent = '🍽️';
+                    
+                    // Adicionar XP do dia
+                    const xpDiv = document.createElement('div');
+                    xpDiv.className = 'calendar-xp';
+                    xpDiv.textContent = '+5';
+                    dayEl.appendChild(xpDiv);
+                }
+                
+                if (date === today) {
+                    dayEl.classList.add('today');
+                }
+                
+                dayEl.appendChild(icons);
+                calendar.appendChild(dayEl);
+            }
+            
+            document.getElementById('careMonthLabel').textContent = getMonthName(currentCareMonth);
+        }
+
+        function changeCareMonth(direction) {
+            currentCareMonth.setMonth(currentCareMonth.getMonth() + direction);
+            renderCareCalendar();
+        }
+
+        function loadCareHistory() {
+            const history = document.getElementById('careHistory');
+            history.innerHTML = '';
+            
+            const entries = Object.entries(careData)
+                .sort((a, b) => new Date(b[0]) - new Date(a[0]))
+                .slice(0, 10);
+            
+            if (entries.length === 0) {
+                history.innerHTML = '<p style="color: #666;">Nenhum cuidado registrado ainda.</p>';
+                return;
+            }
+            
+            entries.forEach(([date, data]) => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                
+                let details = '✅ Cuidado diário registrado';
+                if (data.food) details += `<br><strong>🍽️ Alimentação:</strong> ${data.food}`;
+                if (data.selfCare) details += `<br><strong>🫁 Autocuidado:</strong> ${data.selfCare}`;
+                
+                item.innerHTML = `
+                    <div class="history-date">${new Date(date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-details">${details}</div>
+                `;
+                history.appendChild(item);
+            });
+        }
+
+        // ========================================
         // PESO
+        // ========================================
+
         function saveWeight() {
             const weight = parseFloat(document.getElementById('weightInput').value);
             if (!weight || weight <= 0) {
-                alert('Por favor, insira um peso válido!');
+                showMessage('Por favor, insira um peso válido!', 'warning');
                 return;
             }
             
@@ -876,9 +2367,10 @@
             
             localStorage.setItem('weightData', JSON.stringify(weightData));
             document.getElementById('weightInput').value = '';
-            alert('✅ Peso registrado com sucesso!');
+            showMessage('✅ Peso registrado com sucesso!', 'success');
             loadWeightHistory();
             updateDashboard();
+            updateAllCharts();
         }
 
         function loadWeightHistory() {
@@ -914,13 +2406,16 @@
             });
         }
 
+        // ========================================
         // MEDIÇÃO PECTUS
+        // ========================================
+
         function saveMeasurement() {
             const depth = parseFloat(document.getElementById('pectusDepth').value);
             const notes = document.getElementById('pectusNotes').value;
             
             if (!depth || depth <= 0) {
-                alert('Por favor, insira uma medida válida!');
+                showMessage('Por favor, insira uma medida válida!', 'warning');
                 return;
             }
             
@@ -937,8 +2432,9 @@
             localStorage.setItem('measurementData', JSON.stringify(measurementData));
             document.getElementById('pectusDepth').value = '';
             document.getElementById('pectusNotes').value = '';
-            alert('✅ Medição registrada com sucesso!');
+            showMessage('✅ Medição registrada com sucesso!', 'success');
             loadMeasurementHistory();
+            updateAllCharts();
         }
 
         function loadMeasurementHistory() {
@@ -975,7 +2471,10 @@
             });
         }
 
+        // ========================================
         // FOTOS
+        // ========================================
+
         function addPhoto() {
             const input = document.getElementById('photoInput');
             const file = input.files[0];
@@ -995,7 +2494,7 @@
                 
                 localStorage.setItem('photoData', JSON.stringify(photoData));
                 loadPhotoGallery();
-                alert('✅ Foto adicionada com sucesso!');
+                showMessage('✅ Foto adicionada com sucesso!', 'success');
             };
             reader.readAsDataURL(file);
             input.value = '';
@@ -1021,7 +2520,7 @@
                 item.className = 'image-item';
                 item.innerHTML = `
                     <img src="${photo.image}" alt="Progresso">
-                    <button class="delete-btn" onclick="deletePhoto('${photo.date}', ${photoData.indexOf(photo)})">×</button>
+                    <button class="delete-btn" onclick="deletePhoto(${photoData.indexOf(photo)})">×</button>
                     <div class="image-date">${new Date(photo.date).toLocaleDateString('pt-BR')}</div>
                 `;
                 gallery.appendChild(item);
@@ -1030,11 +2529,12 @@
             document.getElementById('photoMonthLabel').textContent = getMonthName(currentPhotoMonth);
         }
 
-        function deletePhoto(date, index) {
+        function deletePhoto(index) {
             if (confirm('Tem certeza que deseja excluir esta foto?')) {
                 photoData.splice(index, 1);
                 localStorage.setItem('photoData', JSON.stringify(photoData));
                 loadPhotoGallery();
+                showMessage('Foto excluída!', 'info');
             }
         }
 
@@ -1043,7 +2543,251 @@
             loadPhotoGallery();
         }
 
+        // ========================================
+        // RELATÓRIO MENSAL
+        // ========================================
+
+        function generateMonthlyReport() {
+            const year = currentReportMonth.getFullYear();
+            const month = currentReportMonth.getMonth();
+            const monthYear = `${year}-${String(month + 1).padStart(2, '0')}`;
+            
+            document.getElementById('reportMonthLabel').textContent = getMonthName(currentReportMonth);
+            
+            // Filtrar dados do mês
+            const vacuumDays = Object.keys(vacuumData).filter(date => date.startsWith(monthYear));
+            const workoutDays = Object.keys(workoutData).filter(date => date.startsWith(monthYear));
+            const careDays = Object.keys(careData).filter(date => date.startsWith(monthYear));
+            
+            // Calcular streak (sequência)
+            const allDates = [...new Set([...vacuumDays, ...workoutDays, ...careDays])].sort();
+            let maxStreak = 0;
+            let currentStreak = 0;
+            
+            for (let i = 0; i < allDates.length; i++) {
+                if (i === 0) {
+                    currentStreak = 1;
+                } else {
+                    const prevDate = new Date(allDates[i - 1]);
+                    const currDate = new Date(allDates[i]);
+                    const diffDays = Math.floor((currDate - prevDate) / (1000 * 60 * 60 * 24));
+                    
+                    if (diffDays === 1) {
+                        currentStreak++;
+                    } else {
+                        currentStreak = 1;
+                    }
+                }
+                maxStreak = Math.max(maxStreak, currentStreak);
+            }
+            
+            // Calcular XP ganho no mês
+            const xpGanhoMes = (vacuumDays.length * 10) + (workoutDays.length * 10) + (careDays.length * 5);
+            
+            // Peso
+            const monthWeights = weightData.filter(w => w.monthYear === monthYear);
+            const pesoInfo = monthWeights.length > 0 
+                ? `${monthWeights[monthWeights.length - 1].weight.toFixed(1)} kg` 
+                : 'Não registrado';
+            
+            // Medição
+            const monthMeasurements = measurementData.filter(m => m.monthYear === monthYear);
+            const medicaoInfo = monthMeasurements.length > 0 
+                ? `${monthMeasurements[monthMeasurements.length - 1].depth.toFixed(1)} cm` 
+                : 'Não registrado';
+            
+            // Mensagens motivacionais
+            const motivationalMessages = [
+                "Você apareceu. Isso já conta muito. Continue assim! 💪",
+                "Cada dia é uma vitória. Você está no caminho certo! 🎯",
+                "O progresso não é sobre perfeição, é sobre persistência. 🌟",
+                "Você está cuidando de você. Isso é o que importa! 💙",
+                "Pequenos passos, grandes resultados. Continue firme! 🚀",
+                "Sua dedicação está fazendo a diferença! ⭐",
+                "Você não está só nessa jornada. Continue avançando! 🤝"
+            ];
+            
+            const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+            
+            // Renderizar relatório
+            const reportContent = document.getElementById('reportContent');
+            reportContent.innerHTML = `
+                <div class="report-section">
+                    <h3>📊 Resumo do Mês</h3>
+                    <div class="report-stats">
+                        <div class="report-stat">
+                            <div class="report-stat-value">${allDates.length}</div>
+                            <div class="report-stat-label">Dias Ativos</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="report-stat-value">${maxStreak}</div>
+                            <div class="report-stat-label">Maior Sequência</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="report-stat-value">${xpGanhoMes}</div>
+                            <div class="report-stat-label">XP Ganho</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="report-stat-value">${getCurrentRank().name}</div>
+                            <div class="report-stat-label">Patente Atual</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h3>🫁 Vacuum Bell</h3>
+                    <div class="report-stats">
+                        <div class="report-stat">
+                            <div class="report-stat-value">${vacuumDays.length}</div>
+                            <div class="report-stat-label">Dias de Uso</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="report-stat-value">${((vacuumDays.length / new Date(year, month + 1, 0).getDate()) * 100).toFixed(0)}%</div>
+                            <div class="report-stat-label">Taxa de Uso</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h3>💪 Academia</h3>
+                    <div class="report-stats">
+                        <div class="report-stat">
+                            <div class="report-stat-value">${workoutDays.length}</div>
+                            <div class="report-stat-label">Dias de Treino</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="report-stat-value">${((workoutDays.length / new Date(year, month + 1, 0).getDate()) * 100).toFixed(0)}%</div>
+                            <div class="report-stat-label">Taxa de Treino</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h3>🍽️ Cuidado Diário</h3>
+                    <div class="report-stats">
+                        <div class="report-stat">
+                            <div class="report-stat-value">${careDays.length}</div>
+                            <div class="report-stat-label">Dias de Cuidado</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h3>📏 Medições</h3>
+                    <div class="report-stats">
+                        <div class="report-stat">
+                            <div class="report-stat-value">${pesoInfo}</div>
+                            <div class="report-stat-label">Peso</div>
+                        </div>
+                        <div class="report-stat">
+                            <div class="report-stat-value">${medicaoInfo}</div>
+                            <div class="report-stat-label">Pectus</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-section">
+                    <h3>📅 Calendário do Mês</h3>
+                    <div class="mini-calendar" id="miniCalendar"></div>
+                </div>
+
+                <div class="report-section">
+                    <h3>💬 Mensagem Final</h3>
+                    <div class="info-box" style="margin: 0;">
+                        <strong>${randomMessage}</strong>
+                    </div>
+                </div>
+            `;
+            
+            // Renderizar mini calendário
+            renderMiniCalendar(year, month, allDates);
+        }
+
+        function renderMiniCalendar(year, month, activeDates) {
+            const calendar = document.getElementById('miniCalendar');
+            if (!calendar) return;
+            
+            calendar.innerHTML = '';
+            
+            const dayNames = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+            dayNames.forEach(name => {
+                const header = document.createElement('div');
+                header.style.fontWeight = 'bold';
+                header.style.color = '#667eea';
+                header.style.textAlign = 'center';
+                header.style.padding = '5px';
+                header.textContent = name;
+                calendar.appendChild(header);
+            });
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            for (let i = 0; i < firstDay; i++) {
+                calendar.appendChild(document.createElement('div'));
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = formatDate(new Date(year, month, day));
+                const dayEl = document.createElement('div');
+                dayEl.className = 'mini-calendar-day';
+                
+                // Número do dia
+                const dayNum = document.createElement('div');
+                dayNum.textContent = day;
+                dayNum.style.fontWeight = '700';
+                dayEl.appendChild(dayNum);
+                
+                // Ícones das atividades
+                const iconsDiv = document.createElement('div');
+                iconsDiv.style.fontSize = '0.6em';
+                iconsDiv.style.display = 'flex';
+                iconsDiv.style.gap = '2px';
+                iconsDiv.style.marginTop = '2px';
+                
+                let totalXP = 0;
+                
+                if (vacuumData[date] && vacuumData[date].completed) {
+                    iconsDiv.textContent += '🫁';
+                    totalXP += vacuumData[date].noPain ? 15 : 10;
+                }
+                if (workoutData[date] && workoutData[date].completed) {
+                    iconsDiv.textContent += '💪';
+                    totalXP += (workoutData[date].notes && workoutData[date].notes.length > 10) ? 15 : 10;
+                }
+                if (careData[date] && careData[date].completed) {
+                    iconsDiv.textContent += '🍽️';
+                    totalXP += 5;
+                }
+                
+                if (iconsDiv.textContent) {
+                    dayEl.appendChild(iconsDiv);
+                    
+                    // Mostrar XP total
+                    const xpDiv = document.createElement('div');
+                    xpDiv.style.fontSize = '0.55em';
+                    xpDiv.style.color = '#7C3AED';
+                    xpDiv.style.fontWeight = '700';
+                    xpDiv.style.marginTop = '1px';
+                    xpDiv.textContent = `+${totalXP}`;
+                    dayEl.appendChild(xpDiv);
+                    
+                    dayEl.classList.add('active');
+                }
+                
+                calendar.appendChild(dayEl);
+            }
+        }
+
+        function changeReportMonth(direction) {
+            currentReportMonth.setMonth(currentReportMonth.getMonth() + direction);
+            generateMonthlyReport();
+        }
+
+        // ========================================
         // DASHBOARD
+        // ========================================
+
         function updateDashboard() {
             // Total de dias Vacuum Bell
             const totalVacuum = Object.keys(vacuumData).length + settings.previousDaysAdded;
@@ -1066,25 +2810,398 @@
                 document.getElementById('currentWeight').textContent = latest.weight.toFixed(1);
             }
         }
+        // ========================================
+// SISTEMA DE GRÁFICOS - NOVO
+// ========================================
 
-        // INICIALIZAÇÃO DO SISTEMA
+// Variáveis globais para armazenar instâncias dos gráficos
+let chartPeso = null;
+let chartPectus = null;
+let chartVacuum = null;
+
+/**
+ * Configuração padrão de cores e estilos dos gráficos
+ */
+const chartColors = {
+    primary: 'rgba(102, 126, 234, 1)',      // #667eea
+    primaryLight: 'rgba(102, 126, 234, 0.2)',
+    secondary: 'rgba(118, 75, 162, 1)',     // #764ba2
+    success: 'rgba(76, 175, 80, 1)',        // #4caf50
+    successLight: 'rgba(76, 175, 80, 0.2)',
+    grid: 'rgba(0, 0, 0, 0.05)'
+};
+
+/**
+ * Configuração comum para todos os gráficos
+ */
+const commonChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: {
+            display: false
+        },
+        tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            padding: 12,
+            titleFont: {
+                size: 14,
+                weight: 'bold'
+            },
+            bodyFont: {
+                size: 13
+            },
+            cornerRadius: 8
+        }
+    },
+    scales: {
+        x: {
+            grid: {
+                color: chartColors.grid,
+                drawBorder: false
+            },
+            ticks: {
+                font: {
+                    size: 11
+                }
+            }
+        },
+        y: {
+            grid: {
+                color: chartColors.grid,
+                drawBorder: false
+            },
+            ticks: {
+                font: {
+                    size: 11
+                }
+            }
+        }
+    }
+};
+
+/**
+ * Renderiza o gráfico de evolução do peso
+ */
+function renderChartPeso() {
+    const canvas = document.getElementById('chartPeso');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    // Destruir gráfico anterior se existir
+    if (chartPeso) {
+        chartPeso.destroy();
+    }
+
+    // Verificar se há dados
+    if (weightData.length === 0) {
+        canvas.style.display = 'none';
+        const wrapper = canvas.parentElement;
+        wrapper.innerHTML = `
+            <div class="chart-empty-state">
+                <p style="font-size: 3em;">⚖️</p>
+                <p><strong>Nenhum peso registrado ainda</strong></p>
+                <p style="font-size: 0.9em;">Comece a registrar seu peso para ver a evolução aqui</p>
+            </div>
+        `;
+        return;
+    }
+
+    canvas.style.display = 'block';
+
+    // Ordenar dados por data
+    const sortedData = [...weightData].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // Preparar dados para o gráfico
+    const labels = sortedData.map(entry => {
+        const date = new Date(entry.date);
+        return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+    });
+
+    const data = sortedData.map(entry => entry.weight);
+
+    // Criar gráfico
+    chartPeso = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Peso (kg)',
+                data: data,
+                borderColor: chartColors.primary,
+                backgroundColor: chartColors.primaryLight,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: chartColors.primary,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
+            }]
+        },
+        options: {
+            ...commonChartOptions,
+            plugins: {
+                ...commonChartOptions.plugins,
+                tooltip: {
+                    ...commonChartOptions.plugins.tooltip,
+                    callbacks: {
+                        label: function(context) {
+                            return `Peso: ${context.parsed.y.toFixed(1)} kg`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                ...commonChartOptions.scales,
+                y: {
+                    ...commonChartOptions.scales.y,
+                    ticks: {
+                        ...commonChartOptions.scales.y.ticks,
+                        callback: function(value) {
+                            return value.toFixed(1) + ' kg';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Renderiza o gráfico de evolução da profundidade do pectus
+ */
+function renderChartPectus() {
+    const canvas = document.getElementById('chartPectus');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    // Destruir gráfico anterior se existir
+    if (chartPectus) {
+        chartPectus.destroy();
+    }
+
+    // Verificar se há dados
+    if (measurementData.length === 0) {
+        canvas.style.display = 'none';
+        const wrapper = canvas.parentElement;
+        wrapper.innerHTML = `
+            <div class="chart-empty-state">
+                <p style="font-size: 3em;">📏</p>
+                <p><strong>Nenhuma medição registrada ainda</strong></p>
+                <p style="font-size: 0.9em;">Registre medições para acompanhar a evolução do pectus</p>
+            </div>
+        `;
+        return;
+    }
+
+    canvas.style.display = 'block';
+
+    // Ordenar dados por data
+    const sortedData = [...measurementData].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // Preparar dados para o gráfico
+    const labels = sortedData.map(entry => {
+        const date = new Date(entry.date);
+        return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+    });
+
+    const data = sortedData.map(entry => entry.depth);
+
+    // Criar gráfico
+    chartPectus = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Profundidade (cm)',
+                data: data,
+                borderColor: chartColors.success,
+                backgroundColor: chartColors.successLight,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: chartColors.success,
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
+            }]
+        },
+        options: {
+            ...commonChartOptions,
+            plugins: {
+                ...commonChartOptions.plugins,
+                tooltip: {
+                    ...commonChartOptions.plugins.tooltip,
+                    callbacks: {
+                        label: function(context) {
+                            return `Profundidade: ${context.parsed.y.toFixed(1)} cm`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                ...commonChartOptions.scales,
+                y: {
+                    ...commonChartOptions.scales.y,
+                    reverse: true, // Invertido: menor é melhor
+                    ticks: {
+                        ...commonChartOptions.scales.y.ticks,
+                        callback: function(value) {
+                            return value.toFixed(1) + ' cm';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Renderiza o gráfico de uso mensal do Vacuum Bell
+ */
+function renderChartVacuum() {
+    const canvas = document.getElementById('chartVacuum');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+
+    // Destruir gráfico anterior se existir
+    if (chartVacuum) {
+        chartVacuum.destroy();
+    }
+
+    // Verificar se há dados
+    if (Object.keys(vacuumData).length === 0) {
+        canvas.style.display = 'none';
+        const wrapper = canvas.parentElement;
+        wrapper.innerHTML = `
+            <div class="chart-empty-state">
+                <p style="font-size: 3em;">🫁</p>
+                <p><strong>Nenhum uso registrado ainda</strong></p>
+                <p style="font-size: 0.9em;">Comece a usar o Vacuum Bell para ver as estatísticas aqui</p>
+            </div>
+        `;
+        return;
+    }
+
+    canvas.style.display = 'block';
+
+    // Agrupar dados por mês/ano
+    const monthlyData = {};
+    Object.keys(vacuumData).forEach(dateStr => {
+        if (vacuumData[dateStr].completed) {
+            const date = new Date(dateStr);
+            const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+            monthlyData[monthYear] = (monthlyData[monthYear] || 0) + 1;
+        }
+    });
+
+    // Ordenar por data e preparar labels
+    const sortedMonths = Object.keys(monthlyData).sort();
+    const labels = sortedMonths.map(monthYear => {
+        const [year, month] = monthYear.split('-');
+        const date = new Date(year, parseInt(month) - 1, 1);
+        return date.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' });
+    });
+
+    const data = sortedMonths.map(monthYear => monthlyData[monthYear]);
+
+    // Criar gráfico
+    chartVacuum = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Dias de uso',
+                data: data,
+                backgroundColor: chartColors.primary,
+                borderColor: chartColors.primary,
+                borderWidth: 2,
+                borderRadius: 8,
+                hoverBackgroundColor: chartColors.secondary
+            }]
+        },
+        options: {
+            ...commonChartOptions,
+            plugins: {
+                ...commonChartOptions.plugins,
+                tooltip: {
+                    ...commonChartOptions.plugins.tooltip,
+                    callbacks: {
+                        label: function(context) {
+                            return `Dias de uso: ${context.parsed.y}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                ...commonChartOptions.scales,
+                y: {
+                    ...commonChartOptions.scales.y,
+                    beginAtZero: true,
+                    ticks: {
+                        ...commonChartOptions.scales.y.ticks,
+                        stepSize: 1,
+                        callback: function(value) {
+                            return value + ' dias';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+/**
+ * Atualiza todos os gráficos
+ * Chamada sempre que novos dados são salvos
+ */
+function updateAllCharts() {
+    renderChartPeso();
+    renderChartPectus();
+    renderChartVacuum();
+}
+        // ========================================
+        // INICIALIZAÇÃO
+        // ========================================
+
         function init() {
             // Restaurar configurações
             document.getElementById('vacuumWeek').value = settings.vacuumWeek;
             document.getElementById('vacuumMaxTime').value = settings.vacuumMaxTime;
+            recalcularStreak();
+            updateStreakDisplay();
+            // Verificar e exibir mensagem motivacional
+            verificarEExibirMensagem()
+            // Verificar inatividade
+            checkInactivity();
             
+            // Atualizar displays
             updateDashboard();
+            updateXPDisplay();
+            
+            // Renderizar calendários
             renderVacuumCalendar();
             renderWorkoutCalendar();
+            renderCareCalendar();
+            
+            // Carregar históricos
             loadVacuumHistory();
             loadWorkoutHistory();
+            loadCareHistory();
             loadWeightHistory();
             loadMeasurementHistory();
             loadPhotoGallery();
-        }
-
+             updateAllCharts();
+}
         // Executar ao carregar a página
         window.onload = init;
-    </script>
+        
+        </script>
 </body>
 </html>
