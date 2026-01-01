@@ -1435,7 +1435,10 @@ textarea {
         // ========================================
         // UTILITÁRIOS
         // ========================================
-        
+        function parseLocalDate(dateStr) {
+    const [year, month, day] = dateStr.split('-').map(Number);
+    return new Date(year, month - 1, day);
+}
         function formatDate(date) {
             const d = new Date(date);
             const day = String(d.getDate()).padStart(2, '0');
@@ -1554,7 +1557,9 @@ function calcularDiasSemAtividade() {
     
     // Encontrar a data mais recente
     const datasOrdenadas = Array.from(todasDatas).sort();
-    const ultimaAtividade = new Date(datasOrdenadas[datasOrdenadas.length - 1]);
+    const ultimaAtividade = parseLocalDate(
+    datasOrdenadas[datasOrdenadas.length - 1]
+);
     ultimaAtividade.setHours(0, 0, 0, 0);
     
     // Calcular diferença em dias
@@ -1694,7 +1699,7 @@ function verificarEExibirMensagem() {
  */
 function checkInactivity() {
     const today = new Date();
-    const lastActivity = new Date(xpData.lastActivity);
+    const lastActivity = parseLocalDate(xpData.lastActivity);
     const daysDiff = Math.floor((today - lastActivity) / (1000 * 60 * 60 * 24));
 
     // Só penalizar se passou 3+ dias
@@ -1794,8 +1799,8 @@ function updateStreak() {
         return;
     }
     
-    const ultimaData = new Date(streakData.ultimoDiaAtivo);
-    const dataHoje = new Date(hoje);
+    const ultimaData = parseLocalDate(streakData.ultimoDiaAtivo);
+const dataHoje = parseLocalDate(hoje);
     const diferencaDias = Math.floor((dataHoje - ultimaData) / (1000 * 60 * 60 * 24));
     
     if (diferencaDias === 1) {
@@ -1873,8 +1878,8 @@ function recalcularStreak() {
     let maiorStreak = 1;
     
     for (let i = 1; i < datasOrdenadas.length; i++) {
-        const dataAnterior = new Date(datasOrdenadas[i - 1]);
-        const dataAtual = new Date(datasOrdenadas[i]);
+        const dataAnterior = parseLocalDate(datasOrdenadas[i - 1]);
+const dataAtual = parseLocalDate(datasOrdenadas[i]);
         const diferencaDias = Math.floor((dataAtual - dataAnterior) / (1000 * 60 * 60 * 24));
         
         if (diferencaDias === 1) {
@@ -1885,7 +1890,10 @@ function recalcularStreak() {
         }
     }
     
-    const ultimaData = new Date(datasOrdenadas[datasOrdenadas.length - 1]);
+    const ultimaData = parseLocalDate(
+    datasOrdenadas[datasOrdenadas.length - 1]
+);
+
     const hoje = new Date();
     const diferencaDias = Math.floor((hoje - ultimaData) / (1000 * 60 * 60 * 24));
     
