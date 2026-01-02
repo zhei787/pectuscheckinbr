@@ -1039,15 +1039,821 @@ textarea {
         font-size: 1.10em;
     }
 }
+/* ========================================
+   PLAYLIST CARD - NOVO
+   ======================================== */
 
+.playlist-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.playlist-icon {
+    font-size: 3em;
+    margin-bottom: 12px;
+}
+
+.playlist-title {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.playlist-description {
+    font-size: 0.95em;
+    margin-bottom: 18px;
+    opacity: 0.95;
+    line-height: 1.5;
+}
+
+.playlist-button {
+    display: inline-block;
+    background: white;
+    color: #667eea;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.playlist-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.5),
+                0 8px 20px rgba(0, 0, 0, 0.3);
+    background: #f8f9fd;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+    .playlist-card {
+        padding: 20px 16px;
+    }
+    
+    .playlist-title {
+        font-size: 1.2em;
+    }
+    
+    .playlist-description {
+        font-size: 0.9em;
+    }
+    
+    .playlist-button {
+        padding: 11px 22px;
+        font-size: 0.9em;
+        width: 100%;
+    }
+}
+
+/* ========================================
+   PAINEL DE PATENTES - NOVO
+   ======================================== */
+
+.ranks-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 280px;
+}
+
+.ranks-toggle {
+    background: linear-gradient(135deg, #7C3AED, #6366F1);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9em;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    transition: all 0.3s ease;
+    text-align: center;
+    user-select: none;
+}
+
+.ranks-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.5),
+                0 6px 16px rgba(124, 58, 237, 0.4);
+}
+
+.ranks-content {
+    display: none;
+    background: white;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    border: 1px solid rgba(124, 58, 237, 0.1);
+}
+
+.ranks-panel.open .ranks-content {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ranks-header {
+    background: linear-gradient(135deg, #F8F9FD, #E8EBF7);
+    padding: 14px 16px;
+    border-bottom: 2px solid #E2E8F0;
+}
+
+.ranks-header h4 {
+    margin: 0;
+    color: #7C3AED;
+    font-size: 1em;
+    font-weight: 700;
+}
+
+.ranks-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.rank-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    transition: background 0.2s ease;
+}
+
+.rank-item:hover {
+    background: #F8FAFC;
+}
+
+.rank-name {
+    color: #1E293B;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.rank-xp {
+    color: #7C3AED;
+    font-weight: 700;
+    font-size: 0.85em;
+    background: rgba(124, 58, 237, 0.1);
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+/* Scrollbar personalizada */
+.ranks-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ranks-list::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+
+.ranks-list::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 3px;
+}
+
+.ranks-list::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+    .ranks-panel {
+        top: 10px;
+        right: 10px;
+        max-width: 260px;
+    }
+    
+    .ranks-toggle {
+        padding: 9px 14px;
+        font-size: 0.85em;
+    }
+    
+    .ranks-list {
+        max-height: 300px;
+    }
+    
+    .rank-item {
+        padding: 9px 12px;
+    }
+    
+    .rank-name {
+        font-size: 0.85em;
+    }
+    
+    .rank-xp {
+        font-size: 0.8em;
+        padding: 3px 8px;
+    }
+}
+/* ========================================
+   PAINEL DE PATENTES - NOVO
+   ======================================== */
+
+.ranks-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 280px;
+}
+
+.ranks-toggle {
+    background: linear-gradient(135deg, #7C3AED, #6366F1);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9em;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    transition: all 0.3s ease;
+    text-align: center;
+    user-select: none;
+}
+
+.ranks-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.5),
+                0 6px 16px rgba(124, 58, 237, 0.4);
+}
+
+.ranks-content {
+    display: none;
+    background: white;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    border: 1px solid rgba(124, 58, 237, 0.1);
+}
+
+.ranks-panel.open .ranks-content {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ranks-header {
+    background: linear-gradient(135deg, #F8F9FD, #E8EBF7);
+    padding: 14px 16px;
+    border-bottom: 2px solid #E2E8F0;
+}
+
+.ranks-header h4 {
+    margin: 0;
+    color: #7C3AED;
+    font-size: 1em;
+    font-weight: 700;
+}
+
+.ranks-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.rank-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    transition: background 0.2s ease;
+}
+
+.rank-item:hover {
+    background: #F8FAFC;
+}
+
+.rank-name {
+    color: #1E293B;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.rank-xp {
+    color: #7C3AED;
+    font-weight: 700;
+    font-size: 0.85em;
+    background: rgba(124, 58, 237, 0.1);
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+/* Scrollbar personalizada */
+.ranks-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ranks-list::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+
+.ranks-list::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 3px;
+}
+
+.ranks-list::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+    .ranks-panel {
+        top: 10px;
+        right: 10px;
+        max-width: 260px;
+    }
+    
+    .ranks-toggle {
+        padding: 9px 14px;
+        font-size: 0.85em;
+    }
+    
+    .ranks-list {
+        max-height: 300px;
+    }
+    
+    .rank-item {
+        padding: 9px 12px;
+    }
+    
+    .rank-name {
+        font-size: 0.85em;
+    }
+    
+    .rank-xp {
+        font-size: 0.8em;
+        padding: 3px 8px;
+    }
+}
+/* ========================================
+   TELA DE LOGIN - NOVO
+   ======================================== */
+
+.login-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 20px;
+}
+
+.login-screen.hidden {
+    display: none;
+}
+
+.login-container {
+    max-width: 420px;
+    width: 100%;
+}
+
+.login-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 24px;
+}
+
+.login-header h1 {
+    font-size: 1.8em;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.login-header p {
+    font-size: 1em;
+    opacity: 0.9;
+}
+
+.login-box {
+    background: white;
+    padding: 32px 28px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.login-box h2 {
+    color: #1E293B;
+    font-size: 1.5em;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.login-subtitle {
+    color: #64748B;
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 0.9em;
+}
+
+.login-box .form-group {
+    margin-bottom: 16px;
+}
+
+.login-box label {
+    display: block;
+    margin-bottom: 6px;
+    color: #334155;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+    background: #F8FAFC;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #7C3AED;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.btn-login {
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 16px;
+}
+
+.btn-google {
+    width: 100%;
+    background: white;
+    color: #1E293B;
+    border: 1.5px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.btn-google:hover {
+    background: #F8FAFC;
+    border-color: #CBD5E1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-offline {
+    width: 100%;
+    background: transparent;
+    color: #64748B;
+    border: 1.5px dashed #CBD5E1;
+    box-shadow: none;
+}
+
+.btn-offline:hover {
+    background: #F8FAFC;
+    color: #475569;
+    box-shadow: none;
+}
+
+.login-divider {
+    text-align: center;
+    position: relative;
+    margin: 20px 0;
+}
+
+.login-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #E2E8F0;
+}
+
+.login-divider span {
+    background: white;
+    padding: 0 12px;
+    position: relative;
+    color: #94A3B8;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.login-toggle {
+    text-align: center;
+    color: #64748B;
+    font-size: 0.9em;
+    margin-top: 16px;
+}
+
+.login-toggle a {
+    color: #7C3AED;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-toggle a:hover {
+    text-decoration: underline;
+}
+
+.login-message {
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    text-align: center;
+    display: none;
+}
+
+.login-message.show {
+    display: block;
+}
+
+.login-message.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #DC2626;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.login-message.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .login-box {
+        padding: 24px 20px;
+    }
+    
+    .login-header h1 {
+        font-size: 1.5em;
+    }
+    
+    .login-box h2 {
+        font-size: 1.3em;
+    }
+}
+/* ========================================
+   USER INFO E LOGOUT - NOVO
+   ======================================== */
+
+.user-info-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.user-email {
+    font-size: 0.85em;
+    color: #64748B;
+    font-weight: 600;
+    padding: 4px 8px;
+    background: #F8FAFC;
+    border-radius: 6px;
+    border: 1px solid #E2E8F0;
+}
+
+.btn-logout {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    color: #EF4444;
+    border: 1.5px solid #FEE2E2;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.btn-logout:hover {
+    background: #FEE2E2;
+    color: #DC2626;
+    border-color: #FECACA;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+    transform: translateY(-1px);
+}
+
+.btn-logout svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    header > div {
+        flex-direction: column !important;
+        gap: 12px;
+    }
+    
+    .user-info-box {
+        align-items: center;
+        width: 100%;
+    }
+    
+    .user-email {
+        font-size: 0.8em;
+    }
+    
+    .btn-logout {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.9em;
+    }
+}
     </style>
+    <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head>
 <body>
+    <!-- 🔐 TELA DE LOGIN - NOVO -->
+<div id="loginScreen" class="login-screen">
+    <div class="login-container">
+        <div class="login-header">
+            <h1>🏥 Acompanhamento Terapêutico</h1>
+            <p>Pectus Excavatum</p>
+        </div>
+        
+        <div class="login-box">
+            <h2>Bem-vindo de volta!</h2>
+            <p class="login-subtitle">Entre para acessar seu progresso</p>
+            
+            <div id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email">
+                </div>
+                
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+                </div>
+                
+                <button class="btn btn-login" onclick="handleLogin()">Entrar</button>
+                
+                <div class="login-divider">
+                    <span>ou</span>
+                </div>
+                
+                <button class="btn btn-google" onclick="handleGoogleLogin()">
+                    <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right: 8px;">
+                        <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+                        <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+                        <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
+                        <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+                    </svg>
+                    Entrar com Google
+                </button>
+                
+                <p class="login-toggle">
+                    Não tem conta? <a href="#" onclick="toggleAuthMode(); return false;">Criar conta</a>
+                </p>
+            </div>
+            
+            <div id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" placeholder="seu@email.com" autocomplete="email">
+                </div>
+                
+                <div class="form-group">
+                    <label>Senha (mínimo 6 caracteres)</label>
+                    <input type="password" id="registerPassword" placeholder="••••••••" autocomplete="new-password">
+                </div>
+                
+                <button class="btn btn-login" onclick="handleRegister()">Criar Conta</button>
+                
+                <p class="login-toggle">
+                    Já tem conta? <a href="#" onclick="toggleAuthMode(); return false;">Entrar</a>
+                </p>
+            </div>
+            
+            <button class="btn btn-offline" onclick="continueOffline()">
+                Continuar sem login (modo offline)
+            </button>
+        </div>
+        
+        <div id="loginMessage" class="login-message"></div>
+    </div>
+</div>
+    <!-- 🏆 PAINEL DE PATENTES - NOVO -->
+<div class="ranks-panel">
+    <div class="ranks-toggle" onclick="this.parentElement.classList.toggle('open')">
+        🏆 Patentes
+    </div>
+    <div class="ranks-content">
+        <div class="ranks-header">
+            <h4>🎖️ Sistema de Patentes</h4>
+        </div>
+        <div class="ranks-list">
+            <div class="rank-item">
+                <span class="rank-name">Iniciante Consciente</span>
+                <span class="rank-xp">0 XP</span>
+            </div>
+            <div class="rank-item">
+                <span class="rank-name">Em Adaptação</span>
+                <span class="rank-xp">100 XP</span>
+            </div>
+            <div class="rank-item">
+                <span class="rank-name">Persistente</span>
+                <span class="rank-xp">300 XP</span>
+            </div>
+            <div class="rank-item">
+                <span class="rank-name">Disciplinado</span>
+                <span class="rank-xp">600 XP</span>
+            </div>
+            <div class="rank-item">
+                <span class="rank-name">Resiliente</span>
+                <span class="rank-xp">1000 XP</span>
+            </div>
+            <div class="rank-item">
+                <span class="rank-name">Constante</span>
+                <span class="rank-xp">1500 XP</span>
+            </div>
+            <div class="rank-item">
+                <span class="rank-name">Evoluindo</span>
+                <span class="rank-xp">2200 XP</span>
+            </div>
+            <div class="rank-item">
+                <span class="rank-name">Fortalecido</span>
+                <span class="rank-xp">3000 XP</span>
+            </div>
+            <div class="rank-item">
+                <span class="rank-name">Referência</span>
+                <span class="rank-xp">4000 XP</span>
+            </div>
+            <div class="rank-item">
+                <span class="rank-name">Em Equilíbrio</span>
+                <span class="rank-xp">5500 XP</span>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="container">
         <header>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
             <h1>🏥 Acompanhamento Terapêutico</h1>
             <p class="subtitle">Sistema de Monitoramento - Pectus Excavatum</p>
-        </header>
+        </div>
+        <div id="userInfoContainer" style="display: none;">
+            <div class="user-info-box">
+                <div class="user-email" id="userEmail">usuario@email.com</div>
+                <button class="btn-logout" onclick="handleLogout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Sair
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
 
         <div class="xp-container">
             <div class="rank-display">
@@ -1375,12 +2181,261 @@ textarea {
 
             <div id="reportContent"></div>
         </div>
+        <!-- 🎯 CARD DE PLAYLIST - NOVO -->
+<div class="playlist-card">
+    <div class="playlist-icon">🎥</div>
+    <h3 class="playlist-title">Exercícios para Pectus Excavatum</h3>
+    <p class="playlist-description">
+        Playlist completa com exercícios específicos para fortalecer o tórax e melhorar a postura.
+    </p>
+    <a href="https://youtube.com/playlist?list=PLFP6EYiyQK-GMLd1Wfd-fgOWpGhzLsHwN&si=7-ukLW6e4lLf7ekL" target="_blank" rel="noopener noreferrer" class="playlist-button">
+        Acessar Playlist no YouTube →
+    </a>
+</div>
     </div>
 
 <!-- Chart.js CDN - ADICIONAR ANTES DO  PRINCIPAL -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <script>
+        // ========================================
+// FIREBASE CONFIGURATION - NOVO
+// ========================================
+
+// ⚠️ SUBSTITUA COM SUAS CREDENCIAIS DO FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyBWxCGa9U2m-jBZ12rAMxWWh_RYBDKZMyo",
+  authDomain: "pectuscheck.firebaseapp.com",
+  databaseURL: "https://pectuscheck-default-rtdb.firebaseio.com",
+  projectId: "pectuscheck",
+  storageBucket: "pectuscheck.firebasestorage.app",
+  messagingSenderId: "261580913188",
+  appId: "1:261580913188:web:9c496e2967375f7d9036b1",
+};
+
+// Inicializar Firebase
+let firebaseApp, firebaseAuth, firebaseDatabase;
+let currentUser = null;
+let isOnlineMode = false;
+
+try {
+    firebaseApp = firebase.initializeApp(firebaseConfig);
+    firebaseAuth = firebase.auth();
+    firebaseDatabase = firebase.database();
+} catch (error) {
+    console.error("Erro ao inicializar Firebase:", error);
+}
+
+// ========================================
+// FUNÇÕES DE AUTENTICAÇÃO - NOVO
+// ========================================
+
+function showLoginMessage(message, type = 'error') {
+    const messageEl = document.getElementById('loginMessage');
+    messageEl.textContent = message;
+    messageEl.className = `login-message show ${type}`;
+    setTimeout(() => {
+        messageEl.classList.remove('show');
+    }, 4000);
+}
+
+function toggleAuthMode() {
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    
+    if (loginForm.style.display === 'none') {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+    } else {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+    }
+}
+
+async function handleLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    
+    if (!email || !password) {
+        showLoginMessage('Preencha todos os campos!');
+        return;
+    }
+    
+    try {
+        const userCredential = await firebaseAuth.signInWithEmailAndPassword(email, password);
+        currentUser = userCredential.user;
+        isOnlineMode = true;
+        await loadUserData();
+        hideLoginScreen();
+        showMessage('✅ Login realizado com sucesso!', 'success');
+    } catch (error) {
+        console.error(error);
+        showLoginMessage(getErrorMessage(error.code));
+    }
+}
+
+async function handleRegister() {
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    
+    if (!email || !password) {
+        showLoginMessage('Preencha todos os campos!');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showLoginMessage('A senha deve ter no mínimo 6 caracteres!');
+        return;
+    }
+    
+    try {
+        const userCredential = await firebaseAuth.createUserWithEmailAndPassword(email, password);
+        currentUser = userCredential.user;
+        isOnlineMode = true;
+        await saveUserData();
+        hideLoginScreen();
+        showMessage('✅ Conta criada com sucesso!', 'success');
+    } catch (error) {
+        console.error(error);
+        showLoginMessage(getErrorMessage(error.code));
+    }
+}
+
+async function handleGoogleLogin() {
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const userCredential = await firebaseAuth.signInWithPopup(provider);
+        currentUser = userCredential.user;
+        isOnlineMode = true;
+        await loadUserData();
+        hideLoginScreen();
+        showMessage('✅ Login com Google realizado!', 'success');
+    } catch (error) {
+        console.error(error);
+        showLoginMessage(getErrorMessage(error.code));
+    }
+}
+
+function continueOffline() {
+    isOnlineMode = false;
+    hideLoginScreen();
+    showMessage('ℹ️ Modo offline: seus dados ficam apenas neste dispositivo', 'info');
+}
+
+function hideLoginScreen() {
+    document.getElementById('loginScreen').classList.add('hidden');
+    showUserInfo(); // ← ADICIONAR ESTA LINHA
+    init(); // Inicializar o app
+}
+async function handleLogout() {
+    if (!confirm('Tem certeza que deseja sair?\n\nSeus dados já foram sincronizados.')) {
+        return;
+    }
+    
+    try {
+        // Salvar dados uma última vez antes de sair
+        if (isOnlineMode) {
+            await saveUserData();
+        }
+        
+        // Fazer logout do Firebase
+        await firebaseAuth.signOut();
+        
+        // Resetar variáveis
+        currentUser = null;
+        isOnlineMode = false;
+        
+        // Limpar interface
+        document.getElementById('userInfoContainer').style.display = 'none';
+        
+        // Mostrar tela de login novamente
+        document.getElementById('loginScreen').classList.remove('hidden');
+        
+        // Limpar campos
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('registerEmail').value = '';
+        document.getElementById('registerPassword').value = '';
+        
+        showLoginMessage('✅ Logout realizado com sucesso!', 'success');
+        
+    } catch (error) {
+        console.error('Erro ao fazer logout:', error);
+        showMessage('❌ Erro ao fazer logout. Tente novamente.', 'error');
+    }
+}
+
+function showUserInfo() {
+    if (isOnlineMode && currentUser) {
+        const container = document.getElementById('userInfoContainer');
+        const emailEl = document.getElementById('userEmail');
+        
+        emailEl.textContent = currentUser.email;
+        container.style.display = 'block';
+    }
+}
+function getErrorMessage(code) {
+    const messages = {
+        'auth/user-not-found': 'Usuário não encontrado',
+        'auth/wrong-password': 'Senha incorreta',
+        'auth/email-already-in-use': 'Este email já está em uso',
+        'auth/weak-password': 'Senha muito fraca',
+        'auth/invalid-email': 'Email inválido',
+        'auth/popup-closed-by-user': 'Login cancelado',
+        'auth/network-request-failed': 'Erro de conexão'
+    };
+    return messages[code] || 'Erro ao fazer login. Tente novamente.';
+}
+
+// ========================================
+// SINCRONIZAÇÃO DE DADOS - NOVO
+// ========================================
+
+async function saveUserData() {
+    if (!isOnlineMode || !currentUser) return;
+    
+    try {
+        const userId = currentUser.uid;
+        await firebaseDatabase.ref(`users/${userId}`).set({
+            vacuumData: vacuumData,
+            workoutData: workoutData,
+            careData: careData,
+            weightData: weightData,
+            measurementData: measurementData,
+            photoData: photoData,
+            settings: settings,
+            xpData: xpData,
+            streakData: streakData,
+            lastSync: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Erro ao salvar dados:', error);
+    }
+}
+
+async function loadUserData() {
+    if (!isOnlineMode || !currentUser) return;
+    
+    try {
+        const userId = currentUser.uid;
+        const snapshot = await firebaseDatabase.ref(`users/${userId}`).once('value');
+        const data = snapshot.val();
+        
+        if (data) {
+            vacuumData = data.vacuumData || {};
+            workoutData = data.workoutData || {};
+            careData = data.careData || {};
+            weightData = data.weightData || [];
+            measurementData = data.measurementData || [];
+            photoData = data.photoData || [];
+            settings = data.settings || { vacuumWeek: 1, vacuumMaxTime: 60, previousDaysAdded: 0 };
+            xpData = data.xpData || { xpTratamento: 0, xpCorpo: 0, xpCuidado: 0, xpGeral: 0, lastActivity: formatDate(new Date()) };
+            streakData = data.streakData || { streakAtual: 0, maiorStreak: 0, ultimoDiaAtivo: null, diasPausados: 0, streak7Bonus: false };
+        }
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+    }
+}
         // ========================================
         // DADOS E VARIÁVEIS GLOBAIS
         // ========================================
@@ -1666,32 +2721,30 @@ function verificarEExibirMensagem() {
         // ========================================
 
         function addXP(category, amount, message) {
-            xpData[category] += amount;
-            
-            // Calcular XP Geral (média equilibrada)
-            xpData.xpGeral = Math.floor(
-                (xpData.xpTratamento + xpData.xpCorpo + xpData.xpCuidado) / 3
-            );
-            
-            xpData.lastActivity = formatDate(new Date());
-            localStorage.setItem('xpData', JSON.stringify(xpData));
-            
-            updateXPDisplay();
-            showMessage(message, 'success');
-        }
+    xpData[category] += amount;
+    
+    // 🔧 CORREÇÃO: XP Geral agora é SOMA (não média)
+    // Tratamento de 2-4 anos requer progressão lenta e contínua
+    xpData.xpGeral = xpData.xpTratamento + xpData.xpCorpo + xpData.xpCuidado;
+    
+    xpData.lastActivity = formatDate(new Date());
+    localStorage.setItem('xpData', JSON.stringify(xpData));
+    saveUserData();
+    updateXPDisplay();
+    showMessage(message, 'success');
+}
 
         function removeXP(category, percentage) {
-            const amount = Math.floor(xpData[category] * (percentage / 100));
-            xpData[category] = Math.max(0, xpData[category] - amount);
-            
-            // Recalcular XP Geral
-            xpData.xpGeral = Math.floor(
-                (xpData.xpTratamento + xpData.xpCorpo + xpData.xpCuidado) / 3
-            );
-            
-            localStorage.setItem('xpData', JSON.stringify(xpData));
-            updateXPDisplay();
-        }
+    const amount = Math.floor(xpData[category] * (percentage / 100));
+    xpData[category] = Math.max(0, xpData[category] - amount);
+    
+    // 🔧 CORREÇÃO: Recalcular XP Geral como SOMA
+    xpData.xpGeral = xpData.xpTratamento + xpData.xpCorpo + xpData.xpCuidado;
+    
+    localStorage.setItem('xpData', JSON.stringify(xpData));
+    saveUserData();
+    updateXPDisplay();
+}
 
         /**
  * Verifica inatividade e remove XP se necessário
@@ -1842,6 +2895,7 @@ const dataHoje = parseLocalDate(hoje);
 
 function saveStreakData() {
     localStorage.setItem('streakData', JSON.stringify(streakData));
+    saveUserData();
 }
 
 function updateStreakDisplay() {
@@ -1924,6 +2978,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             settings.vacuumWeek = week;
             settings.vacuumMaxTime = maxTime;
             localStorage.setItem('settings', JSON.stringify(settings));
+            saveUserData();
             
             document.getElementById('currentTime').textContent = time;
             updateDashboard();
@@ -1934,6 +2989,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             if (days > 0) {
                 settings.previousDaysAdded = days;
                 localStorage.setItem('settings', JSON.stringify(settings));
+                saveUserData();
                 showMessage(`${days} dias anteriores adicionados com sucesso!`, 'success');
                 updateDashboard();
             }
@@ -1963,6 +3019,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             };
             
             localStorage.setItem('vacuumData', JSON.stringify(vacuumData));
+            saveUserData();
             
             // ADICIONAR XP
             let xpGained = 10;
@@ -2054,7 +3111,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             history.innerHTML = '';
             
             const entries = Object.entries(vacuumData)
-                .sort((a, b) => new Date(b[0]) - new Date(a[0]))
+                .sort((a, b) => parseLocalDate(b[0]) - parseLocalDate(a[0]))
                 .slice(0, 10);
             
             if (entries.length === 0) {
@@ -2066,7 +3123,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 const item = document.createElement('div');
                 item.className = 'history-item';
                 item.innerHTML = `
-                    <div class="history-date">${new Date(date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-date">${parseLocalDate(date).toLocaleDateString('pt-BR')}</div>
                     <div class="history-details">
                         <strong>Tempo:</strong> ${data.time} minutos | 
                         <strong>Semana:</strong> ${data.week}
@@ -2105,6 +3162,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             };
             
             localStorage.setItem('workoutData', JSON.stringify(workoutData));
+            saveUserData();
             
             // ADICIONAR XP
             let xpGained = 10;
@@ -2195,7 +3253,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             history.innerHTML = '';
             
             const entries = Object.entries(workoutData)
-                .sort((a, b) => new Date(b[0]) - new Date(a[0]))
+                .sort((a, b) => parseLocalDate(b[0]) - parseLocalDate(a[0]))
                 .slice(0, 10);
             
             if (entries.length === 0) {
@@ -2207,7 +3265,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 const item = document.createElement('div');
                 item.className = 'history-item';
                 item.innerHTML = `
-                    <div class="history-date">${new Date(date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-date">${parseLocalDate(date).toLocaleDateString('pt-BR')}</div>
                     <div class="history-details">
                         <strong>Treino:</strong> ${data.type}<br>
                         ${data.notes ? `<strong>Obs:</strong> ${data.notes}` : ''}
@@ -2251,6 +3309,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             };
             
             localStorage.setItem('careData', JSON.stringify(careData));
+            saveUserData();
             
             // ADICIONAR XP
             addXP('xpCuidado', 5, '🍽️ +5 XP por cuidar de você hoje!');
@@ -2329,7 +3388,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             history.innerHTML = '';
             
             const entries = Object.entries(careData)
-                .sort((a, b) => new Date(b[0]) - new Date(a[0]))
+                .sort((a, b) => parseLocalDate(b[0]) - parseLocalDate(a[0]))
                 .slice(0, 10);
             
             if (entries.length === 0) {
@@ -2346,7 +3405,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 if (data.selfCare) details += `<br><strong>🫁 Autocuidado:</strong> ${data.selfCare}`;
                 
                 item.innerHTML = `
-                    <div class="history-date">${new Date(date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-date">${parseLocalDate(date).toLocaleDateString('pt-BR')}</div>
                     <div class="history-details">${details}</div>
                 `;
                 history.appendChild(item);
@@ -2374,6 +3433,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             });
             
             localStorage.setItem('weightData', JSON.stringify(weightData));
+            saveUserData();
             document.getElementById('weightInput').value = '';
             showMessage('✅ Peso registrado com sucesso!', 'success');
             loadWeightHistory();
@@ -2390,7 +3450,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 return;
             }
             
-            const sortedData = [...weightData].sort((a, b) => new Date(b.date) - new Date(a.date));
+           const sortedData = [...weightData].sort((a, b) => parseLocalDate(b.date) - parseLocalDate(a.date));
             
             sortedData.forEach((entry, index) => {
                 const item = document.createElement('div');
@@ -2405,7 +3465,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 }
                 
                 item.innerHTML = `
-                    <div class="history-date">${new Date(entry.date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-date">${parseLocalDate(entry.date).toLocaleDateString('pt-BR')}</div>
                     <div class="history-details">
                         <strong>Peso:</strong> ${entry.weight.toFixed(1)} kg ${variation}
                     </div>
@@ -2438,6 +3498,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             });
             
             localStorage.setItem('measurementData', JSON.stringify(measurementData));
+            saveUserData();
             document.getElementById('pectusDepth').value = '';
             document.getElementById('pectusNotes').value = '';
             showMessage('✅ Medição registrada com sucesso!', 'success');
@@ -2469,7 +3530,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 }
                 
                 item.innerHTML = `
-                    <div class="history-date">${new Date(entry.date).toLocaleDateString('pt-BR')}</div>
+                    <div class="history-date">${parseLocalDate(entry.date).toLocaleDateString('pt-BR')}</div>
                     <div class="history-details">
                         <strong>Profundidade:</strong> ${entry.depth.toFixed(1)} cm ${variation}<br>
                         ${entry.notes ? `<strong>Obs:</strong> ${entry.notes}` : ''}
@@ -2501,6 +3562,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 });
                 
                 localStorage.setItem('photoData', JSON.stringify(photoData));
+                saveUserData();
                 loadPhotoGallery();
                 showMessage('✅ Foto adicionada com sucesso!', 'success');
             };
@@ -2509,38 +3571,39 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
         }
 
         function loadPhotoGallery() {
-            const gallery = document.getElementById('photoGallery');
-            gallery.innerHTML = '';
-            
-            const year = currentPhotoMonth.getFullYear();
-            const month = String(currentPhotoMonth.getMonth() + 1).padStart(2, '0');
-            const monthYear = `${year}-${month}`;
-            
-            const filteredPhotos = photoData.filter(photo => photo.monthYear === monthYear);
-            
-            if (filteredPhotos.length === 0) {
-                gallery.innerHTML = '<p style="color: #666; grid-column: 1/-1; text-align: center;">Nenhuma foto neste mês.</p>';
-                return;
-            }
-            
-            filteredPhotos.forEach((photo, index) => {
-                const item = document.createElement('div');
-                item.className = 'image-item';
-                item.innerHTML = `
-                    <img src="${photo.image}" alt="Progresso">
-                    <button class="delete-btn" onclick="deletePhoto(${photoData.indexOf(photo)})">×</button>
-                    <div class="image-date">${new Date(photo.date).toLocaleDateString('pt-BR')}</div>
-                `;
-                gallery.appendChild(item);
-            });
-            
-            document.getElementById('photoMonthLabel').textContent = getMonthName(currentPhotoMonth);
-        }
+    const gallery = document.getElementById('photoGallery');
+    gallery.innerHTML = '';
+    
+    const year = currentPhotoMonth.getFullYear();
+    const month = String(currentPhotoMonth.getMonth() + 1).padStart(2, '0');
+    const monthYear = `${year}-${month}`;
+    
+    const filteredPhotos = photoData.filter(photo => photo.monthYear === monthYear);
+    
+    if (filteredPhotos.length === 0) {
+        gallery.innerHTML = '<p style="color: #666; grid-column: 1/-1; text-align: center;">Nenhuma foto neste mês.</p>';
+        return;
+    }
+    
+    filteredPhotos.forEach((photo, index) => {
+        const item = document.createElement('div');
+        item.className = 'image-item';
+        item.innerHTML = `
+            <img src="${photo.image}" alt="Progresso">
+            <button class="delete-btn" onclick="deletePhoto(${photoData.indexOf(photo)})">×</button>
+            <div class="image-date">${parseLocalDate(photo.date).toLocaleDateString('pt-BR')}</div>
+        `;
+        gallery.appendChild(item);
+    });
+    
+    document.getElementById('photoMonthLabel').textContent = getMonthName(currentPhotoMonth);
+}
 
         function deletePhoto(index) {
             if (confirm('Tem certeza que deseja excluir esta foto?')) {
                 photoData.splice(index, 1);
                 localStorage.setItem('photoData', JSON.stringify(photoData));
+                saveUserData();
                 loadPhotoGallery();
                 showMessage('Foto excluída!', 'info');
             }
@@ -2919,11 +3982,11 @@ function renderChartPeso() {
     canvas.style.display = 'block';
 
     // Ordenar dados por data
-    const sortedData = [...weightData].sort((a, b) => new Date(a.date) - new Date(b.date));
+    const sortedData = [...weightData].sort((a, b) => parseLocalDate(a.date) - parseLocalDate(b.date));
 
     // Preparar dados para o gráfico
     const labels = sortedData.map(entry => {
-        const date = new Date(entry.date);
+        const date = parseLocalDate(entry.date);
         return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
     });
 
@@ -3013,7 +4076,7 @@ function renderChartPectus() {
 
     // Preparar dados para o gráfico
     const labels = sortedData.map(entry => {
-        const date = new Date(entry.date);
+        const date = parseLocalDate(entry.date);
         return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
     });
 
@@ -3207,8 +4270,232 @@ function updateAllCharts() {
             loadPhotoGallery();
              updateAllCharts();
 }
-        // Executar ao carregar a página
-        window.onload = init;
+ // ========================================
+// PATCH DE AUTENTICAÇÃO - ADICIONAR NO FINAL DO SCRIPT
+// ========================================
+
+// Substituir o window.onload existente por este:
+window.onload = function() {
+    // Verificar se Firebase foi inicializado
+    if (!firebaseAuth) {
+        console.error('Firebase não inicializado!');
+        showLoginMessage('Erro ao conectar com Firebase. Verifique as credenciais.', 'error');
+        return;
+    }
+    
+    // Listener de mudança de estado de autenticação
+    firebaseAuth.onAuthStateChanged(function(user) {
+        if (user) {
+            // Usuário está logado
+            console.log('Usuário logado:', user.email);
+            currentUser = user;
+            isOnlineMode = true;
+            
+            // Esconder tela de login
+            document.getElementById('loginScreen').classList.add('hidden');
+            
+            // Mostrar informações do usuário
+            showUserInfo();
+            
+            // Carregar dados do Firebase
+            loadUserData().then(() => {
+                // Inicializar o app
+                init();
+                showMessage('✅ Bem-vindo de volta!', 'success');
+            }).catch(error => {
+                console.error('Erro ao carregar dados:', error);
+                // Se falhar, usar dados locais
+                init();
+                showMessage('⚠️ Usando dados locais. Dados na nuvem não puderam ser carregados.', 'warning');
+            });
+            
+        } else {
+            // Usuário não está logado - mostrar tela de login
+            console.log('Nenhum usuário logado');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('userInfoContainer').style.display = 'none';
+        }
+    });
+};
+
+// ========================================
+// CORREÇÕES NAS FUNÇÕES EXISTENTES
+// ========================================
+
+// Atualizar a função loadUserData para sincronizar com localStorage
+const loadUserDataOriginal = loadUserData;
+loadUserData = async function() {
+    if (!isOnlineMode || !currentUser) {
+        console.log('Modo offline - usando localStorage');
+        return;
+    }
+    
+    try {
+        const userId = currentUser.uid;
+        const snapshot = await firebaseDatabase.ref(`users/${userId}`).once('value');
+        const data = snapshot.val();
+        
+        if (data) {
+            // Dados existem na nuvem - usar eles
+            console.log('Dados carregados da nuvem');
+            vacuumData = data.vacuumData || {};
+            workoutData = data.workoutData || {};
+            careData = data.careData || {};
+            weightData = data.weightData || [];
+            measurementData = data.measurementData || [];
+            photoData = data.photoData || [];
+            settings = data.settings || { vacuumWeek: 1, vacuumMaxTime: 60, previousDaysAdded: 0 };
+            xpData = data.xpData || { xpTratamento: 0, xpCorpo: 0, xpCuidado: 0, xpGeral: 0, lastActivity: formatDate(new Date()) };
+            streakData = data.streakData || { streakAtual: 0, maiorStreak: 0, ultimoDiaAtivo: null, diasPausados: 0, streak7Bonus: false };
+            
+            // Sincronizar com localStorage também
+            localStorage.setItem('vacuumData', JSON.stringify(vacuumData));
+            localStorage.setItem('workoutData', JSON.stringify(workoutData));
+            localStorage.setItem('careData', JSON.stringify(careData));
+            localStorage.setItem('weightData', JSON.stringify(weightData));
+            localStorage.setItem('measurementData', JSON.stringify(measurementData));
+            localStorage.setItem('photoData', JSON.stringify(photoData));
+            localStorage.setItem('settings', JSON.stringify(settings));
+            localStorage.setItem('xpData', JSON.stringify(xpData));
+            localStorage.setItem('streakData', JSON.stringify(streakData));
+            
+        } else {
+            // Primeira vez logando - migrar dados do localStorage para nuvem
+            console.log('Primeira vez logando - migrando dados locais para nuvem');
+            await saveUserData();
+        }
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        throw error;
+    }
+};
+
+// Auto-salvar dados a cada 30 segundos quando logado
+setInterval(function() {
+    if (isOnlineMode && currentUser) {
+        saveUserData().then(() => {
+            console.log('Dados sincronizados automaticamente');
+        }).catch(error => {
+            console.error('Erro ao sincronizar:', error);
+        });
+    }
+}, 30000); // 30 segundos
+
+// ========================================
+// FUNÇÃO PARA MOSTRAR INFORMAÇÕES DO USUÁRIO
+// ========================================
+
+function showUserInfo() {
+    if (isOnlineMode && currentUser) {
+        const container = document.getElementById('userInfoContainer');
+        const emailEl = document.getElementById('userEmail');
+        
+        emailEl.textContent = currentUser.email;
+        container.style.display = 'block';
+    }
+}
+
+// ========================================
+// TRATAMENTO DE ERROS MELHORADO
+// ========================================
+
+// Sobrescrever handleLogin com tratamento de erro melhorado
+const handleLoginOriginal = handleLogin;
+handleLogin = async function() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    
+    if (!email || !password) {
+        showLoginMessage('Preencha todos os campos!');
+        return;
+    }
+    
+    // Mostrar loading
+    const btnLogin = document.querySelector('.btn-login');
+    const originalText = btnLogin.textContent;
+    btnLogin.textContent = 'Entrando...';
+    btnLogin.disabled = true;
+    
+    try {
+        await firebaseAuth.signInWithEmailAndPassword(email, password);
+        // O resto é tratado pelo onAuthStateChanged
+    } catch (error) {
+        console.error('Erro no login:', error);
+        showLoginMessage(getErrorMessage(error.code));
+        btnLogin.textContent = originalText;
+        btnLogin.disabled = false;
+    }
+};
+
+// Sobrescrever handleRegister com tratamento de erro melhorado
+const handleRegisterOriginal = handleRegister;
+handleRegister = async function() {
+    const email = document.getElementById('registerEmail').value.trim();
+    const password = document.getElementById('registerPassword').value;
+    
+    if (!email || !password) {
+        showLoginMessage('Preencha todos os campos!');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showLoginMessage('A senha deve ter no mínimo 6 caracteres!');
+        return;
+    }
+    
+    // Mostrar loading
+    const btnRegister = document.querySelector('.btn-login');
+    const originalText = btnRegister.textContent;
+    btnRegister.textContent = 'Criando conta...';
+    btnRegister.disabled = true;
+    
+    try {
+        await firebaseAuth.createUserWithEmailAndPassword(email, password);
+        // O resto é tratado pelo onAuthStateChanged
+    } catch (error) {
+        console.error('Erro no registro:', error);
+        showLoginMessage(getErrorMessage(error.code));
+        btnRegister.textContent = originalText;
+        btnRegister.disabled = false;
+    }
+};
+
+// Sobrescrever handleGoogleLogin
+const handleGoogleLoginOriginal = handleGoogleLogin;
+handleGoogleLogin = async function() {
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await firebaseAuth.signInWithPopup(provider);
+        // O resto é tratado pelo onAuthStateChanged
+    } catch (error) {
+        console.error('Erro no login Google:', error);
+        if (error.code !== 'auth/popup-closed-by-user') {
+            showLoginMessage(getErrorMessage(error.code));
+        }
+    }
+};
+
+// ========================================
+// MENSAGENS DE ERRO TRADUZIDAS
+// ========================================
+
+function getErrorMessage(code) {
+    const messages = {
+        'auth/user-not-found': 'Usuário não encontrado',
+        'auth/wrong-password': 'Senha incorreta',
+        'auth/email-already-in-use': 'Este email já está em uso',
+        'auth/weak-password': 'Senha muito fraca (mínimo 6 caracteres)',
+        'auth/invalid-email': 'Email inválido',
+        'auth/popup-closed-by-user': 'Login cancelado',
+        'auth/network-request-failed': 'Erro de conexão. Verifique sua internet.',
+        'auth/too-many-requests': 'Muitas tentativas. Aguarde alguns minutos.',
+        'auth/invalid-credential': 'Credenciais inválidas. Verifique email e senha.'
+    };
+    return messages[code] || `Erro: ${code}. Tente novamente.`;
+}
+
+console.log('✅ Patch de autenticação carregado com sucesso!');
+
         
         </script>
 </body>
