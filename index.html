@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acompanhamento Terapêutico - Pectus Excavatum</title>
@@ -2337,7 +2338,7 @@ async function handleLogout() {
         await firebaseAuth.signOut();
         
          localStorage.clear();
-         
+
         // 4️⃣ LIMPAR TODAS AS VARIÁVEIS (IMPORTANTE!)
         currentUser = null;
         isOnlineMode = false;
@@ -3486,7 +3487,10 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 return;
             }
             
-           const sortedData = [...weightData].sort((a, b) => parseLocalDate(b.date) - parseLocalDate(a.date));
+           const latest = [...weightData].sort(
+  (a, b) => parseLocalDate(b.date) - parseLocalDate(a.date)
+)[0];
+
             
             sortedData.forEach((entry, index) => {
                 const item = document.createElement('div');
@@ -3690,8 +3694,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             }
             
             // Calcular XP ganho no mês
-            const xpGanhoMes = (vacuumDays.length * 10) + (workoutDays.length * 10) + (careDays.length * 5);
-            
+            const xpGanhoMes = xpData.xpGeral;
             // Peso
             const monthWeights = weightData.filter(w => w.monthYear === monthYear);
             const pesoInfo = monthWeights.length > 0 
@@ -3914,7 +3917,10 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             
             // Peso atual
             if (weightData.length > 0) {
-                const latest = weightData.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+                const latest = [...weightData].sort(
+  (a, b) => parseLocalDate(b.date) - parseLocalDate(a.date)
+)[0];
+
                 document.getElementById('currentWeight').textContent = latest.weight.toFixed(1);
             }
         }
