@@ -1770,10 +1770,6 @@ textarea {
                     Já tem conta? <a href="#" onclick="toggleAuthMode(); return false;">Entrar</a>
                 </p>
             </div>
-            
-            <button class="btn btn-offline" onclick="continueOffline()">
-                Continuar sem login (modo offline)
-            </button>
         </div>
         
         <div id="loginMessage" class="login-message"></div>
@@ -2317,9 +2313,7 @@ async function handleGoogleLogin() {
 }
 
 function continueOffline() {
-    isOnlineMode = false;
-    hideLoginScreen();
-    showMessage('ℹ️ Modo offline: seus dados ficam apenas neste dispositivo', 'info');
+    showLoginMessage('⚠️ Modo offline foi desativado. Faça login para continuar.', 'warning');
 }
 
 function hideLoginScreen() {
@@ -2436,37 +2430,35 @@ async function loadUserData() {
         console.error('Erro ao carregar dados:', error);
     }
 }
-        // ========================================
-        // DADOS E VARIÁVEIS GLOBAIS
-        // ========================================
-        
-        let vacuumData = JSON.parse(localStorage.getItem('vacuumData')) || {};
-        let workoutData = JSON.parse(localStorage.getItem('workoutData')) || {};
-        let careData = JSON.parse(localStorage.getItem('careData')) || {};
-        let weightData = JSON.parse(localStorage.getItem('weightData')) || [];
-        let measurementData = JSON.parse(localStorage.getItem('measurementData')) || [];
-        let photoData = JSON.parse(localStorage.getItem('photoData')) || [];
-        let settings = JSON.parse(localStorage.getItem('settings')) || {
-            vacuumWeek: 1,
-            vacuumMaxTime: 60,
-            previousDaysAdded: 0
-        };
-    
-        // SISTEMA DE XP
-        let xpData = JSON.parse(localStorage.getItem('xpData')) || {
-            xpTratamento: 0,
-            xpCorpo: 0,
-            xpCuidado: 0,
-            xpGeral: 0,
-            lastActivity: formatDate(new Date())
-        };
-        let streakData = JSON.parse(localStorage.getItem('streakData')) || {
-           streakAtual: 0,
-           maiorStreak: 0,
-           ultimoDiaAtivo: null,
-           diasPausados: 0,
-           streak7Bonus: false
-        };
+  
+let vacuumData = {};
+let workoutData = {};
+let careData = {};
+let weightData = [];
+let measurementData = [];
+let photoData = [];
+let settings = {
+    vacuumWeek: 1,
+    vacuumMaxTime: 60,
+    previousDaysAdded: 0
+};
+
+// ✅ CORREÇÃO: Não chamar funções na inicialização
+let xpData = {
+    xpTratamento: 0,
+    xpCorpo: 0,
+    xpCuidado: 0,
+    xpGeral: 0,
+    lastActivity: null  // Será definido depois
+};
+
+let streakData = {
+    streakAtual: 0,
+    maiorStreak: 0,
+    ultimoDiaAtivo: null,
+    diasPausados: 0,
+    streak7Bonus: false
+};
         // PATENTES
         const ranks = [
             { name: 'Iniciante Consciente', xp: 0 },
@@ -2494,19 +2486,29 @@ async function loadUserData() {
     const [year, month, day] = dateStr.split('-').map(Number);
     return new Date(year, month - 1, day);
 }
-        function formatDate(date) {
-            const d = new Date(date);
-            const day = String(d.getDate()).padStart(2, '0');
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const year = d.getFullYear();
-            return `${year}-${month}-${day}`;
-        }
 
-        function getMonthName(date) {
-            const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                          'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-            return `${months[date.getMonth()]} ${date.getFullYear()}`;
-        }
+function formatDate(date) {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${year}-${month}-${day}`;
+}
+
+function getMonthName(date) {
+    const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    return `${months[date.getMonth()]} ${date.getFullYear()}`;
+}
+
+// ========================================
+// INICIALIZAR lastActivity APÓS formatDate ESTAR DEFINIDO
+// ========================================
+
+// Definir lastActivity corretamente
+if (!xpData.lastActivity) {
+    xpData.lastActivity = formatDate(new Date());
+}
 
         function openTab(tabName) {
             const tabs = document.querySelectorAll('.tab-content');
@@ -2728,7 +2730,6 @@ function verificarEExibirMensagem() {
     xpData.xpGeral = xpData.xpTratamento + xpData.xpCorpo + xpData.xpCuidado;
     
     xpData.lastActivity = formatDate(new Date());
-    localStorage.setItem('xpData', JSON.stringify(xpData));
     saveUserData();
     updateXPDisplay();
     showMessage(message, 'success');
@@ -2741,7 +2742,7 @@ function verificarEExibirMensagem() {
     // 🔧 CORREÇÃO: Recalcular XP Geral como SOMA
     xpData.xpGeral = xpData.xpTratamento + xpData.xpCorpo + xpData.xpCuidado;
     
-    localStorage.setItem('xpData', JSON.stringify(xpData));
+    
     saveUserData();
     updateXPDisplay();
 }
@@ -2894,7 +2895,7 @@ const dataHoje = parseLocalDate(hoje);
 }
 
 function saveStreakData() {
-    localStorage.setItem('streakData', JSON.stringify(streakData));
+    
     saveUserData();
 }
 
@@ -2977,7 +2978,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             
             settings.vacuumWeek = week;
             settings.vacuumMaxTime = maxTime;
-            localStorage.setItem('settings', JSON.stringify(settings));
+            
             saveUserData();
             
             document.getElementById('currentTime').textContent = time;
@@ -2988,7 +2989,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             const days = parseInt(document.getElementById('previousDays').value) || 0;
             if (days > 0) {
                 settings.previousDaysAdded = days;
-                localStorage.setItem('settings', JSON.stringify(settings));
+                
                 saveUserData();
                 showMessage(`${days} dias anteriores adicionados com sucesso!`, 'success');
                 updateDashboard();
@@ -3018,7 +3019,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 noPain: noPain
             };
             
-            localStorage.setItem('vacuumData', JSON.stringify(vacuumData));
+        
             saveUserData();
             
             // ADICIONAR XP
@@ -3161,7 +3162,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 notes: notes
             };
             
-            localStorage.setItem('workoutData', JSON.stringify(workoutData));
+        
             saveUserData();
             
             // ADICIONAR XP
@@ -3308,7 +3309,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 selfCare: selfCare
             };
             
-            localStorage.setItem('careData', JSON.stringify(careData));
+         
             saveUserData();
             
             // ADICIONAR XP
@@ -3432,7 +3433,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 weight: weight
             });
             
-            localStorage.setItem('weightData', JSON.stringify(weightData));
+        
             saveUserData();
             document.getElementById('weightInput').value = '';
             showMessage('✅ Peso registrado com sucesso!', 'success');
@@ -3497,7 +3498,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 notes: notes
             });
             
-            localStorage.setItem('measurementData', JSON.stringify(measurementData));
+           
             saveUserData();
             document.getElementById('pectusDepth').value = '';
             document.getElementById('pectusNotes').value = '';
@@ -3561,7 +3562,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                     image: e.target.result
                 });
                 
-                localStorage.setItem('photoData', JSON.stringify(photoData));
+             
                 saveUserData();
                 loadPhotoGallery();
                 showMessage('✅ Foto adicionada com sucesso!', 'success');
@@ -3602,7 +3603,7 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
         function deletePhoto(index) {
             if (confirm('Tem certeza que deseja excluir esta foto?')) {
                 photoData.splice(index, 1);
-                localStorage.setItem('photoData', JSON.stringify(photoData));
+              
                 saveUserData();
                 loadPhotoGallery();
                 showMessage('Foto excluída!', 'info');
@@ -4348,16 +4349,6 @@ loadUserData = async function() {
             xpData = data.xpData || { xpTratamento: 0, xpCorpo: 0, xpCuidado: 0, xpGeral: 0, lastActivity: formatDate(new Date()) };
             streakData = data.streakData || { streakAtual: 0, maiorStreak: 0, ultimoDiaAtivo: null, diasPausados: 0, streak7Bonus: false };
             
-            // Sincronizar com localStorage também
-            localStorage.setItem('vacuumData', JSON.stringify(vacuumData));
-            localStorage.setItem('workoutData', JSON.stringify(workoutData));
-            localStorage.setItem('careData', JSON.stringify(careData));
-            localStorage.setItem('weightData', JSON.stringify(weightData));
-            localStorage.setItem('measurementData', JSON.stringify(measurementData));
-            localStorage.setItem('photoData', JSON.stringify(photoData));
-            localStorage.setItem('settings', JSON.stringify(settings));
-            localStorage.setItem('xpData', JSON.stringify(xpData));
-            localStorage.setItem('streakData', JSON.stringify(streakData));
             
         } else {
             // Primeira vez logando - migrar dados do localStorage para nuvem
