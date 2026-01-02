@@ -2336,6 +2336,8 @@ async function handleLogout() {
         // 3️⃣ Fazer logout do Firebase
         await firebaseAuth.signOut();
         
+         localStorage.clear();
+         
         // 4️⃣ LIMPAR TODAS AS VARIÁVEIS (IMPORTANTE!)
         currentUser = null;
         isOnlineMode = false;
@@ -3057,9 +3059,6 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 noPain: noPain
             };
             
-        
-            saveUserData();
-            
             // ADICIONAR XP
             let xpGained = 10;
             let message = '✅ +10 XP por usar o Vacuum Bell!';
@@ -3068,7 +3067,8 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 xpGained += 5;
                 message = '✅ +15 XP! Uso consciente sem dor. Você está arrasando! 🎉';
             }
-            
+              saveUserData();
+
             addXP('xpTratamento', xpGained, message);
             updateStreak();
             
@@ -3200,9 +3200,6 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 notes: notes
             };
             
-        
-            saveUserData();
-            
             // ADICIONAR XP
             let xpGained = 10;
             let message = '💪 +10 XP por treinar hoje!';
@@ -3211,7 +3208,8 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 xpGained += 5;
                 message = '💪 +15 XP! Treino com observações detalhadas. Muito bem!';
             }
-            
+            saveUserData();
+
             addXP('xpCorpo', xpGained, message);
             updateStreak();
             
@@ -3346,8 +3344,6 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 food: food,
                 selfCare: selfCare
             };
-            
-         
             saveUserData();
             
             // ADICIONAR XP
@@ -3472,8 +3468,9 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             });
             
         
-            saveUserData();
+            
             document.getElementById('weightInput').value = '';
+            saveUserData();
             showMessage('✅ Peso registrado com sucesso!', 'success');
             loadWeightHistory();
             updateDashboard();
@@ -3537,9 +3534,10 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
             });
             
            
-            saveUserData();
+            
             document.getElementById('pectusDepth').value = '';
             document.getElementById('pectusNotes').value = '';
+            saveUserData();
             showMessage('✅ Medição registrada com sucesso!', 'success');
             loadMeasurementHistory();
             updateAllCharts();
@@ -3601,14 +3599,14 @@ const dataAtual = parseLocalDate(datasOrdenadas[i]);
                 });
                 
              
-                saveUserData();
+                
                 loadPhotoGallery();
                 showMessage('✅ Foto adicionada com sucesso!', 'success');
             };
             reader.readAsDataURL(file);
             input.value = '';
         }
-
+        saveUserData();
         function loadPhotoGallery() {
     const gallery = document.getElementById('photoGallery');
     gallery.innerHTML = '';
