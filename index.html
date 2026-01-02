@@ -2322,30 +2322,42 @@ function hideLoginScreen() {
     init(); // Inicializar o app
 }
 async function handleLogout() {
+    // 1️⃣ Perguntar se tem certeza
     if (!confirm('Tem certeza que deseja sair?\n\nSeus dados já foram sincronizados.')) {
         return;
     }
     
     try {
-        // Salvar dados uma última vez antes de sair
+        // 2️⃣ Salvar uma última vez antes de sair
         if (isOnlineMode) {
             await saveUserData();
         }
         
-        // Fazer logout do Firebase
+        // 3️⃣ Fazer logout do Firebase
         await firebaseAuth.signOut();
         
-        // Resetar variáveis
+        // 4️⃣ LIMPAR TODAS AS VARIÁVEIS (IMPORTANTE!)
         currentUser = null;
         isOnlineMode = false;
         
-        // Limpar interface
+        // Zerar todos os dados
+        vacuumData = {};
+        workoutData = {};
+        careData = {};
+        weightData = [];
+        measurementData = [];
+        photoData = [];
+        settings = { vacuumWeek: 1, vacuumMaxTime: 60, previousDaysAdded: 0 };
+        xpData = { xpTratamento: 0, xpCorpo: 0, xpCuidado: 0, xpGeral: 0, lastActivity: null };
+        streakData = { streakAtual: 0, maiorStreak: 0, ultimoDiaAtivo: null, diasPausados: 0, streak7Bonus: false };
+        
+        // 5️⃣ Esconder informações do usuário
         document.getElementById('userInfoContainer').style.display = 'none';
         
-        // Mostrar tela de login novamente
+        // 6️⃣ Mostrar tela de login novamente
         document.getElementById('loginScreen').classList.remove('hidden');
         
-        // Limpar campos
+        // 7️⃣ Limpar campos de login
         document.getElementById('loginEmail').value = '';
         document.getElementById('loginPassword').value = '';
         document.getElementById('registerEmail').value = '';
@@ -2386,35 +2398,55 @@ function getErrorMessage(code) {
 // ========================================
 
 async function saveUserData() {
-    if (!isOnlineMode || !currentUser) return;
+    // 1️⃣ Verificar se está logado
+    if (!isOnlineMode || !currentUser) {
+        return; // Se não estiver logado, não faz nada
+    }
     
     try {
+        // 2️⃣ Pegar o UID (ID único) do usuário logado
         const userId = currentUser.uid;
+        
+        // 3️⃣ Salvar TUDO no Firebase organizado por UID
         await firebaseDatabase.ref(`users/${userId}`).set({
-            vacuumData: vacuumData,
-            workoutData: workoutData,
-            careData: careData,
-            weightData: weightData,
-            measurementData: measurementData,
-            photoData: photoData,
-            settings: settings,
-            xpData: xpData,
-            streakData: streakData,
-            lastSync: new Date().toISOString()
+            vacuumData: vacuumData,           // Calendário do Vacuum
+            workoutData: workoutData,         // Calendário da Academia
+            careData: careData,               // Calendário do Cuidado
+            weightData: weightData,           // Histórico de peso
+            measurementData: measurementData, // Medições do pectus
+            photoData: photoData,             // Fotos de progresso
+            settings: settings,               // Configurações (semana, tempo)
+            xpData: xpData,                   // XP e patente
+            streakData: streakData,           // Sequência de dias
+            lastSync: new Date().toISOString() // Data da última sincronização
         });
+        
+        console.log('✅ Dados salvos no Firebase!');
+        
     } catch (error) {
-        console.error('Erro ao salvar dados:', error);
+        console.error('❌ Erro ao salvar:', error);
     }
 }
 
+// ========================================
+// CARREGAR DADOS DO FIREBASE POR USUÁRIO
+// ========================================
+
 async function loadUserData() {
-    if (!isOnlineMode || !currentUser) return;
+    // 1️⃣ Verificar se está logado
+    if (!isOnlineMode || !currentUser) {
+        return;
+    }
     
     try {
+        // 2️⃣ Pegar o UID do usuário logado
         const userId = currentUser.uid;
+        
+        // 3️⃣ Buscar dados do Firebase usando o UID
         const snapshot = await firebaseDatabase.ref(`users/${userId}`).once('value');
         const data = snapshot.val();
         
+        // 4️⃣ Se encontrou dados salvos, usar eles
         if (data) {
             vacuumData = data.vacuumData || {};
             workoutData = data.workoutData || {};
@@ -2425,9 +2457,15 @@ async function loadUserData() {
             settings = data.settings || { vacuumWeek: 1, vacuumMaxTime: 60, previousDaysAdded: 0 };
             xpData = data.xpData || { xpTratamento: 0, xpCorpo: 0, xpCuidado: 0, xpGeral: 0, lastActivity: formatDate(new Date()) };
             streakData = data.streakData || { streakAtual: 0, maiorStreak: 0, ultimoDiaAtivo: null, diasPausados: 0, streak7Bonus: false };
+            
+            console.log('✅ Dados carregados do Firebase!');
+        } else {
+            // 5️⃣ Se não encontrou dados, é primeira vez = começar zerado
+            console.log('ℹ️ Primeira vez logando - dados zerados');
         }
+        
     } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error('❌ Erro ao carregar:', error);
     }
 }
   
@@ -4276,43 +4314,54 @@ function updateAllCharts() {
 // ========================================
 
 // Substituir o window.onload existente por este:
+// ========================================
+// INICIALIZAÇÃO DO APP
+// ========================================
+
 window.onload = function() {
-    // Verificar se Firebase foi inicializado
+    // 1️⃣ Verificar se Firebase foi inicializado corretamente
     if (!firebaseAuth) {
         console.error('Firebase não inicializado!');
-        showLoginMessage('Erro ao conectar com Firebase. Verifique as credenciais.', 'error');
+        showLoginMessage('Erro ao conectar com Firebase.', 'error');
         return;
     }
     
-    // Listener de mudança de estado de autenticação
-    firebaseAuth.onAuthStateChanged(function(user) {
+    // 2️⃣ Observar mudanças no estado de login
+    firebaseAuth.onAuthStateChanged(async function(user) {
         if (user) {
-            // Usuário está logado
-            console.log('Usuário logado:', user.email);
+            // ✅ Usuário está logado
+            console.log('✅ Usuário logado:', user.email);
+            
             currentUser = user;
             isOnlineMode = true;
             
-            // Esconder tela de login
+            // 3️⃣ Esconder tela de login
             document.getElementById('loginScreen').classList.add('hidden');
             
-            // Mostrar informações do usuário
+            // 4️⃣ Mostrar email do usuário
             showUserInfo();
             
-            // Carregar dados do Firebase
-            loadUserData().then(() => {
-                // Inicializar o app
+            // 5️⃣ CARREGAR DADOS DO FIREBASE
+            try {
+                await loadUserData();
+                
+                // 6️⃣ Inicializar o app com os dados carregados
                 init();
+                
                 showMessage('✅ Bem-vindo de volta!', 'success');
-            }).catch(error => {
+                
+            } catch (error) {
                 console.error('Erro ao carregar dados:', error);
-                // Se falhar, usar dados locais
+                // Se falhar, inicializa com dados zerados
                 init();
-                showMessage('⚠️ Usando dados locais. Dados na nuvem não puderam ser carregados.', 'warning');
-            });
+                showMessage('⚠️ Erro ao carregar dados. Começando zerado.', 'warning');
+            }
             
         } else {
-            // Usuário não está logado - mostrar tela de login
-            console.log('Nenhum usuário logado');
+            // ❌ Usuário não está logado
+            console.log('❌ Nenhum usuário logado');
+            
+            // Mostrar tela de login
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('userInfoContainer').style.display = 'none';
         }
